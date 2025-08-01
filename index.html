@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BNK Wine Room - The World’s Finest Red Wines</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for the brand */
+        body {
+            background-color: #0a0a0a;
+            color: #f3f3f3;
+            font-family: 'Inter', sans-serif;
+        }
+        .font-playfair {
+            font-family: 'Playfair Display', serif;
+        }
+        .hero-bg {
+            background-image: url('https://placehold.co/1920x1080/000000/800000?text=BNK+Wine+Room');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .bg-deep-red {
+            background-color: #800000;
+        }
+        .text-gold {
+            color: #c4a57f;
+        }
+        .border-gold {
+            border-color: #c4a57f;
+        }
+        .btn-primary {
+            @apply bg-deep-red text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-red-800 transition-all duration-300 ease-in-out transform hover:-translate-y-1;
+        }
+        .btn-secondary {
+            @apply border-2 border-gold text-gold font-semibold py-3 px-8 rounded-lg hover:bg-gold hover:text-black transition-all duration-300 ease-in-out;
+        }
+        .wine-card {
+            @apply bg-black bg-opacity-30 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl;
+        }
+        .wine-card .tag {
+             @apply absolute top-3 right-3 bg-deep-red text-white text-xs font-bold px-2 py-1 rounded-full;
+        }
+         .wine-card .tag-rare {
+             @apply absolute top-3 left-3 bg-gold text-black text-xs font-bold px-2 py-1 rounded-full;
+        }
+        .section-fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .section-fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-black bg-opacity-50 backdrop-blur-md">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="text-2xl font-playfair font-bold text-white">
+                    BNK Wine Room
+                </div>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#red-wine" class="text-gray-300 hover:text-white transition">Red Wine</a>
+                    <a href="#club" class="text-gray-300 hover:text-white transition">Club</a>
+                    <a href="#about" class="text-gray-300 hover:text-white transition">About</a>
+                    <a href="#contact" class="text-gray-300 hover:text-white transition">Contact</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="text-gray-300 hover:text-white transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                    </a>
+                    <a href="#" class="text-gray-300 hover:text-white transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-bg h-screen flex items-center justify-center text-center text-white">
+        <div class="bg-black bg-opacity-60 p-10 rounded-lg">
+            <h1 class="text-5xl md:text-7xl font-playfair font-bold leading-tight mb-4">
+                The World’s Finest Red Wines.
+            </h1>
+            <p class="text-xl md:text-2xl font-light text-gold">
+                Only at BNK Wine Room.
+            </p>
+        </div>
+    </section>
+
+    <!-- Featured Wines Section -->
+    <section id="red-wine" class="py-20 bg-[#111111]">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12 section-fade-in">
+                <h2 class="text-4xl font-playfair font-bold text-white">Featured Collection</h2>
+                <p class="text-lg text-gray-400 mt-2">Curated for the Discerning Palate. Directly Imported, Exclusively Yours.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Wine Card 1 -->
+                <div class="wine-card section-fade-in">
+                    <div class="relative">
+                        <img src="https://placehold.co/600x800/1a1a1a/ffffff?text=Octopoda+Wine" alt="Octopoda Cabernet Sauvignon" class="w-full h-96 object-cover">
+                        <div class="tag">Top Seller</div>
+                        <div class="tag-rare">Only Here</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-playfair font-bold text-white">Octopoda Cabernet Sauvignon 2021</h3>
+                        <p class="text-gold mt-1">Napa Valley, USA</p>
+                        <p class="text-gray-300 mt-4 h-20 overflow-hidden">A bold and opulent Cabernet. Layers of blackcurrant, dark chocolate, and cedar with a hint of graphite...</p>
+                        <div class="flex justify-between items-center mt-6">
+                            <p class="text-2xl font-bold text-white">฿3,500</p>
+                            <button class="text-sm btn-primary py-2 px-4">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wine Card 2 -->
+                <div class="wine-card section-fade-in" style="transition-delay: 150ms;">
+                    <div class="relative">
+                        <img src="https://placehold.co/600x800/1a1a1a/ffffff?text=Château+Margaux" alt="Château Margaux 2018" class="w-full h-96 object-cover">
+                        <div class="tag-rare">Rare</div>
+                        <div class="tag">99 pts</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-playfair font-bold text-white">Château Margaux 2018</h3>
+                        <p class="text-gold mt-1">Margaux, France</p>
+                        <p class="text-gray-300 mt-4 h-20 overflow-hidden">An iconic, ethereal wine. Notes of violet, black cherry, and pencil shavings on the nose...</p>
+                        <div class="flex justify-between items-center mt-6">
+                            <p class="text-2xl font-bold text-white">฿45,000</p>
+                            <button class="text-sm btn-primary py-2 px-4">Inquire</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wine Card 3 -->
+                <div class="wine-card section-fade-in" style="transition-delay: 300ms;">
+                    <div class="relative">
+                        <img src="https://placehold.co/600x800/1a1a1a/ffffff?text=Penfolds+Grange" alt="Penfolds Grange 2017" class="w-full h-96 object-cover">
+                        <div class="tag-rare">Limited</div>
+                        <div class="tag">98 pts</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-playfair font-bold text-white">Penfolds Grange 2017</h3>
+                        <p class="text-gold mt-1">South Australia</p>
+                        <p class="text-gray-300 mt-4 h-20 overflow-hidden">Australia's legendary wine. A powerful and complex Shiraz with notes of soy, anise, and blackberry pie...</p>
+                        <div class="flex justify-between items-center mt-6">
+                            <p class="text-2xl font-bold text-white">฿32,000</p>
+                            <button class="text-sm btn-primary py-2 px-4">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-12 section-fade-in">
+                <a href="#" class="btn-secondary">Explore All Wines</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Building Section -->
+    <section id="about" class="py-24 bg-black">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16 items-center section-fade-in">
+                <div>
+                    <h2 class="text-4xl font-playfair font-bold text-white mb-4">A Gallery of Vintages, Not a Warehouse</h2>
+                    <p class="text-gray-400 mb-6">BNK Wine Room was born from a passion for exceptional wines and a desire to share them. As BNKpattayawinegalleryco.,Ltd, we are a fully licensed importer, personally selecting each bottle and ensuring its provenance. Our collection is exclusive—many of our wines cannot be found anywhere else in Thailand.</p>
+                    <div class="flex items-center bg-gray-900 p-4 rounded-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gold mr-4" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                        </svg>
+                        <div>
+                            <h4 class="font-bold text-white">Official Licensed Importer</h4>
+                            <p class="text-gray-400 text-sm">Authenticity and Quality Guaranteed.</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <img src="https://placehold.co/800x600/1c1c1c/c4a57f?text=Our+Wine+Gallery" alt="BNK Wine Room Gallery" class="rounded-lg shadow-2xl">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Club CTA Section -->
+    <section id="club" class="py-20 bg-deep-red text-white">
+        <div class="container mx-auto px-6 text-center section-fade-in">
+            <h2 class="text-4xl font-playfair font-bold mb-4">Join The Inner Circle</h2>
+            <p class="text-xl max-w-3xl mx-auto mb-8">Become a member of the BNKWineRoomClub for exclusive access to our rarest allocations, private tasting events, and members-only pricing.</p>
+            <a href="#" class="btn-secondary bg-transparent hover:bg-white hover:text-black">Discover Membership Perks</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-black py-12">
+        <div class="container mx-auto px-6 text-center text-gray-400">
+            <h3 class="text-2xl font-playfair text-white mb-2">BNK Wine Room</h3>
+            <p>by BNKpattayawinegalleryco.,Ltd</p>
+            <p class="mt-4">Na Chom Thian, Chon Buri, Thailand</p>
+            <p>For inquiries: <a href="mailto:contact@bnkwineroom.com" class="text-gold hover:underline">contact@bnkwineroom.com</a></p>
+            <div class="flex justify-center space-x-6 mt-6">
+                <a href="#" class="hover:text-white">Facebook</a>
+                <a href="#" class="hover:text-white">Instagram</a>
+                <a href="#" class="hover:text-white">LINE</a>
+            </div>
+            <div class="mt-8 text-sm text-gray-600">
+                <p>&copy; 2025 BNK Wine Room. All Rights Reserved.</p>
+                <p class="mt-1">We sell alcohol to persons of statutory age only.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple scroll-in-view animation
+        const sections = document.querySelectorAll('.section-fade-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+
+</body>
+</html>
