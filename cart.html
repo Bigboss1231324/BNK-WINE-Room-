@@ -25,6 +25,13 @@
         `;
         cartContainer.appendChild(li);
       });
+      
+      // ✅ คำนวณยอดรวม
+    const total = cart.reduce((sum, item) => sum + item.price, 0);
+    const totalElement = document.createElement('h2');
+    totalElement.className = "text-xl text-yellow-400 mt-6";
+    totalElement.innerHTML = `ยอดรวมทั้งหมด: <span class="font-bold">${total.toLocaleString()}</span> บาท`;
+    cartContainer.appendChild(totalElement);
     }
 
     function removeItem(index) {
