@@ -20,7 +20,7 @@
         .bg-deep-red { background-color: #800000; }
         .text-gold { color: #c4a57f; }
         .border-gold { border-color: #c4a57f; }
-        .btn-primary { @apply bg-deep-red text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-red-800 transition-all duration-300 ease-in-out transform hover:-translate-y-1; }
+        .btn-primary { @apply bg-deep-red text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-red-800 transition-all duration-300 ease-in-out transform; }
         .btn-secondary { @apply border-2 border-gold text-gold font-semibold py-3 px-8 rounded-lg hover:bg-gold hover:text-black transition-all duration-300 ease-in-out; }
         .cart-badge { @apply absolute -top-2 -right-2 bg-gold text-black text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center; }
         
@@ -51,8 +51,11 @@
             box-shadow: 0 0 30px rgba(196, 165, 127, 0.3);
             border-color: rgba(196, 165, 127, 0.5);
         }
+        .wine-card .image-container { @apply relative h-96 overflow-hidden; }
         .wine-card img { transition: transform 0.5s ease-in-out; }
         .wine-card:hover img { transform: scale(1.1); }
+        .wine-card .btn-primary { transition: transform 0.4s ease-in-out; }
+        .wine-card:hover .btn-primary { transform: scale(1.1); }
         .wine-card .card-content { @apply p-6 flex flex-col flex-grow; }
 
         #toast-notification { transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; transform: translateY(100%); opacity: 0; }
@@ -63,13 +66,8 @@
         .animate-fade-in-right { transform: translateX(30px); }
         .animate-on-scroll.is-visible { opacity: 1; transform: translate(0, 0); }
 
-        /* FIXED: Dropdown styles */
-        .dropdown .dropdown-menu {
-            display: none;
-        }
-        .dropdown:hover .dropdown-menu {
-            display: block;
-        }
+        .dropdown .dropdown-menu { display: none; }
+        .dropdown:hover .dropdown-menu { display: block; }
     </style>
 </head>
 <body class="antialiased">
@@ -80,18 +78,16 @@
             <div class="flex items-center justify-between">
                 <div class="text-2xl font-playfair font-bold text-white">BNK Wine Room</div>
                 <nav class="hidden md:flex items-center space-x-8">
-                    <!-- FIXED: Catalog Dropdown -->
                     <div class="relative dropdown">
                         <button class="text-gray-300 hover:text-white transition inline-flex items-center py-2">
                             Catalog
                             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
                         <div class="dropdown-menu absolute hidden bg-black bg-opacity-80 backdrop-blur-md rounded-md shadow-lg top-full w-48 py-2 z-20">
-                            <a href="catalog.html?world=old" class="block px-4 py-2 text-sm text-gray-300 hover:bg-deep-red hover:text-white">Old World</a>
-                            <a href="catalog.html?world=new" class="block px-4 py-2 text-sm text-gray-300 hover:bg-deep-red hover:text-white">New World</a>
+                            <a href="old-world.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-deep-red hover:text-white">Old World</a>
+                            <a href="new-world.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-deep-red hover:text-white">New World</a>
                         </div>
                     </div>
-                    <a href="#club" class="text-gray-300 hover:text-white transition">Club</a>
                     <a href="#about" class="text-gray-300 hover:text-white transition">Our Story</a>
                 </nav>
                 <div class="flex items-center space-x-4">
@@ -118,53 +114,143 @@
         </div>
     </section>
 
-    <!-- Featured Wines Section -->
-    <section id="wines" class="py-24 bg-black">
+    <!-- New World Wines Section -->
+    <section id="new-world" class="py-24 bg-black">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-playfair font-bold text-white animate-on-scroll animate-fade-in-up">The Collection</h2>
-                <p class="text-lg text-gray-400 mt-2 animate-on-scroll animate-fade-in-up" style="transition-delay: 100ms;">A selection of our current, exclusive imports.</p>
+                <h2 class="text-4xl font-playfair font-bold text-white animate-on-scroll animate-fade-in-up">New World Selections</h2>
+                <p class="text-lg text-gray-400 mt-2 animate-on-scroll animate-fade-in-up" style="transition-delay: 100ms;">Bold expressions from California, Australia, and Chile.</p>
             </div>
-            
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                 <div class="wine-card animate-on-scroll animate-fade-in-up" style="transition-delay: 200ms;">
-                    <div class="relative h-96 overflow-hidden"><img src="https://i.ibb.co/L5BKn3w/octopoda.png" alt="Octopoda California Cabernet Sauvignon" class="w-full h-full object-contain p-4" onerror="this.onerror=null;this.src='https://placehold.co/600x800/1a1a1a/ffffff?text=Octopoda';"></div>
+                    <div class="image-container"><img src="https://i.ibb.co/L5BKn3w/octopoda.png" alt="Octopoda California Cabernet Sauvignon" class="w-full h-full object-contain p-4"></div>
                     <div class="card-content">
-                        <h3 class="text-2xl font-playfair font-bold text-white">Octopoda Cabernet Sauvignon</h3>
-                        <p class="text-gold mt-1">California, USA</p>
-                        <p class="text-gray-300 mt-4 text-sm flex-grow">Full-bodied with bold fruit, balanced tannins, and a long finish.</p>
-                        <div class="flex justify-between items-center mt-6">
-                            <p class="text-2xl font-bold text-white">฿1,990</p>
-                            <button class="text-sm btn-primary py-2 px-4" onclick="addToCart({id: 1, name: 'Octopoda Cabernet Sauvignon', price: 1990, image: 'https://i.ibb.co/L5BKn3w/octopoda.png'})">Add to Cart</button>
+                        <h3 class="text-xl font-playfair font-bold text-white">Octopoda Cabernet</h3>
+                        <p class="text-gold mt-1 text-sm">California, USA</p>
+                        <div class="mt-4 text-sm text-gray-400 space-y-2 flex-grow">
+                            <p>Full-bodied with bold fruit, balanced tannins, and a long finish.</p>
+                            <p class="text-gray-500">ฟูลบอดี้พร้อมผลไม้เด่นชัด แทนนินสมดุล และจบยาว</p>
+                        </div>
+                        <div class="flex justify-between items-center text-sm text-gold mt-4 pt-4 border-t border-gray-800">
+                            <span>75cls</span>
+                            <span>14.5% ABV</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <p class="text-xl font-bold text-white">฿1,990.00</p>
+                            <button class="btn-primary py-2 px-4 text-sm" onclick="addToCart({id: 1, name: 'Octopoda Cabernet Sauvignon', price: 1990, image: 'https://i.ibb.co/L5BKn3w/octopoda.png'})">Add to Cart</button>
                         </div>
                     </div>
                 </div>
-                 <div class="wine-card animate-on-scroll animate-fade-in-up" style="transition-delay: 300ms;">
-                    <div class="relative h-96 overflow-hidden"><img src="https://i.ibb.co/D9p2G28/windstorm.png" alt="Wind Storm California Red Wine" class="w-full h-full object-contain p-4" onerror="this.onerror=null;this.src='https://placehold.co/600x800/1a1a1a/ffffff?text=Wind+Storm';"></div>
-                    <div class="card-content">
-                        <h3 class="text-2xl font-playfair font-bold text-white">Wind Storm California Red Wine</h3>
-                        <p class="text-gold mt-1">California, USA</p>
-                        <p class="text-gray-300 mt-4 text-sm flex-grow">Aroma of rich black cherry, plum, and cocoa. Full-bodied with well-structured tannins.</p>
-                        <div class="flex justify-between items-center mt-6">
-                            <p class="text-2xl font-bold text-white">฿1,590</p>
-                            <button class="text-sm btn-primary py-2 px-4" onclick="addToCart({id: 2, name: 'Wind Storm California Red Wine', price: 1590, image: 'https://i.ibb.co/D9p2G28/windstorm.png'})">Add to Cart</button>
+                <div class="wine-card animate-on-scroll animate-fade-in-up" style="transition-delay: 300ms;">
+                    <div class="image-container"><img src="https://placehold.co/600x800/1a1a1a/ffffff?text=St.+John+Shiraz" alt="St. John Crush Shiraz" class="w-full h-full object-contain p-4"></div>
+                     <div class="card-content">
+                        <h3 class="text-xl font-playfair font-bold text-white">St. John Crush Shiraz</h3>
+                        <p class="text-gold mt-1 text-sm">Australia</p>
+                        <div class="mt-4 text-sm text-gray-400 space-y-2 flex-grow">
+                            <p>Aroma: Black cherry, licorice, and dark fruit with spicy chocolate. Palate: Deep, rich tannins.</p>
+                            <p class="text-gray-500">กลิ่นแบล็คเชอร์รี่ ชะเอมเทศ และผลไม้สีเข้มพร้อมช็อกโกแลตเผ็ดร้อน แทนนินเข้มข้น</p>
+                        </div>
+                        <div class="flex justify-between items-center text-sm text-gold mt-4 pt-4 border-t border-gray-800">
+                            <span>75cls</span>
+                            <span>15% ABV</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <p class="text-xl font-bold text-white">฿1,290.00</p>
+                            <button class="btn-primary py-2 px-4 text-sm" onclick="addToCart({id: 15, name: 'St. John Crush Shiraz', price: 1290, image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=St.+John+Shiraz'})">Add to Cart</button>
                         </div>
                     </div>
                 </div>
                 <div class="wine-card animate-on-scroll animate-fade-in-up" style="transition-delay: 400ms;">
-                    <div class="relative h-96 overflow-hidden"><img src="https://i.ibb.co/G03g4m7/method.png" alt="Method Red Wine" class="w-full h-full object-contain p-4" onerror="this.onerror=null;this.src='https://placehold.co/600x800/1a1a1a/ffffff?text=Method';"></div>
+                    <div class="image-container"><img src="https://placehold.co/600x800/1a1a1a/ffffff?text=Amparo+Gran+Reserva" alt="Amparo Carménère Gran Reserva" class="w-full h-full object-contain p-4"></div>
                     <div class="card-content">
-                        <h3 class="text-2xl font-playfair font-bold text-white">Method Red Wine</h3>
-                        <p class="text-gold mt-1">California, USA</p>
-                        <p class="text-gray-300 mt-4 text-sm flex-grow">Full-bodied with rich dark fruit, hints of spice, and dusty earth notes.</p>
-                        <div class="flex justify-between items-center mt-6">
-                            <p class="text-2xl font-bold text-white">฿2,290</p>
-                            <button class="text-sm btn-primary py-2 px-4" onclick="addToCart({id: 3, name: 'Method Red Wine', price: 2290, image: 'https://i.ibb.co/G03g4m7/method.png'})">Add to Cart</button>
+                        <h3 class="text-xl font-playfair font-bold text-white">Amparo Gran Reserva</h3>
+                        <p class="text-gold mt-1 text-sm">Chile</p>
+                        <div class="mt-4 text-sm text-gray-400 space-y-2 flex-grow">
+                            <p>Palate: Full body, great concentration, with velvety tannins, balanced acidity, and lovely blueberries.</p>
+                            <p class="text-gray-500">ฟูลบอดี้ เข้มข้นสูง แทนนินนุ่มนวล ความเป็นกรดสมดุล และบลูเบอร์รี่น่ารัก</p>
+                        </div>
+                        <div class="flex justify-between items-center text-sm text-gold mt-4 pt-4 border-t border-gray-800">
+                            <span>75cls</span>
+                            <span>13.5% ABV</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <p class="text-xl font-bold text-white">฿1,590.00</p>
+                            <button class="btn-primary py-2 px-4 text-sm" onclick="addToCart({id: 28, name: 'Amparo Carménère Gran Reserva', price: 1590, image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Amparo+Gran+Reserva'})">Add to Cart</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="text-center mt-16 animate-on-scroll animate-fade-in-up"><a href="catalog.html" class="btn-secondary">Explore The Full Collection</a></div>
+            <div class="text-center mt-16 animate-on-scroll animate-fade-in-up"><a href="new-world.html" class="btn-secondary">Explore New World Wines</a></div>
+        </div>
+    </section>
+
+    <!-- Old World Wines Section -->
+    <section id="old-world" class="py-24 bg-[#111111]">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-playfair font-bold text-white animate-on-scroll animate-fade-in-up">Old World Classics</h2>
+                <p class="text-lg text-gray-400 mt-2 animate-on-scroll animate-fade-in-up" style="transition-delay: 100ms;">Timeless elegance from the historic vineyards of France.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                 <div class="wine-card animate-on-scroll animate-fade-in-up" style="transition-delay: 200ms;">
+                    <div class="image-container"><img src="https://placehold.co/600x800/1a1a1a/ffffff?text=Chateau+de+Roques" alt="Chateau de Roques" class="w-full h-full object-contain p-4"></div>
+                    <div class="card-content">
+                        <h3 class="text-xl font-playfair font-bold text-white">Chateau de Roques</h3>
+                        <p class="text-gold mt-1 text-sm">France</p>
+                        <div class="mt-4 text-sm text-gray-400 space-y-2 flex-grow">
+                            <p>Elegant structure, soft tannins, and great aging potential.</p>
+                            <p class="text-gray-500">โครงสร้างหรูหรา แทนนินนุ่มนวล มีศักยภาพในการเก็บได้นาน</p>
+                        </div>
+                        <div class="flex justify-between items-center text-sm text-gold mt-4 pt-4 border-t border-gray-800">
+                            <span>75cls</span>
+                            <span>14.5% ABV</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <p class="text-xl font-bold text-white">฿3,390.00</p>
+                            <button class="btn-primary py-2 px-4 text-sm" onclick="addToCart({id: 6, name: 'Chateau de Roques', price: 3390, image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Chateau+de+Roques'})">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="wine-card animate-on-scroll animate-fade-in-up" style="transition-delay: 300ms;">
+                    <div class="image-container"><img src="https://placehold.co/600x800/1a1a1a/ffffff?text=Château+Valade" alt="Château Valade" class="w-full h-full object-contain p-4"></div>
+                    <div class="card-content">
+                        <h3 class="text-xl font-playfair font-bold text-white">Château Valade</h3>
+                        <p class="text-gold mt-1 text-sm">France</p>
+                         <div class="mt-4 text-sm text-gray-400 space-y-2 flex-grow">
+                            <p>Beautiful ruby color with aromas of red fruits. Supple and fruity with fine tannins.</p>
+                            <p class="text-gray-500">สีทับทิมสวยงามพร้อมกลิ่นหอมของผลไม้สีแดง เนื้อนุ่มและผลไม้พร้อมแทนนินละเอียด</p>
+                        </div>
+                        <div class="flex justify-between items-center text-sm text-gold mt-4 pt-4 border-t border-gray-800">
+                            <span>75cls</span>
+                            <span>13% ABV</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <p class="text-xl font-bold text-white">฿1,690.00</p>
+                            <button class="btn-primary py-2 px-4 text-sm" onclick="addToCart({id: 8, name: 'Château Valade', price: 1690, image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Château+Valade'})">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="wine-card animate-on-scroll animate-fade-in-up" style="transition-delay: 400ms;">
+                    <div class="image-container"><img src="https://placehold.co/600x800/1a1a1a/ffffff?text=Chateau+Jean+De+Gue" alt="Chateau Jean De Gue" class="w-full h-full object-contain p-4"></div>
+                    <div class="card-content">
+                        <h3 class="text-xl font-playfair font-bold text-white">Chateau Jean De Gue</h3>
+                        <p class="text-gold mt-1 text-sm">France</p>
+                        <div class="mt-4 text-sm text-gray-400 space-y-2 flex-grow">
+                            <p>Aromas of cedar, cassis, and tobacco dust. Full-bodied with a long and aromatic finish.</p>
+                            <p class="text-gray-500">กลิ่นหอมของซีดาร์ แคสซิส และฝุ่นยาสูบ ฟูลบอดี้พร้อมรสชาติที่ยาวนานและหอม</p>
+                        </div>
+                        <div class="flex justify-between items-center text-sm text-gold mt-4 pt-4 border-t border-gray-800">
+                            <span>75cls</span>
+                            <span>13% ABV</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <p class="text-xl font-bold text-white">฿3,590.00</p>
+                            <button class="btn-primary py-2 px-4 text-sm" onclick="addToCart({id: 12, name: 'Chateau Jean De Gue', price: 3590, image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Chateau+Jean+De+Gue'})">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <div class="text-center mt-16 animate-on-scroll animate-fade-in-up"><a href="old-world.html" class="btn-secondary">Explore Old World Wines</a></div>
         </div>
     </section>
     
