@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Old World Wines - BNK Wine Room</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            background-color: #0a0a0a; 
+            color: #f3f3f3; 
+            font-family: 'Inter', sans-serif; 
+        }
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .bg-deep-red { background-color: #800000; }
+        .text-gold { color: #c4a57f; }
+        .btn-primary { @apply bg-deep-red text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-red-800 transition-all duration-300 ease-in-out transform hover:-translate-y-1; }
+        .cart-badge { @apply absolute -top-2 -right-2 bg-gold text-black text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center; }
+        .wine-card { 
+            background-color: rgba(0, 0, 0, 0.4);
+            @apply rounded-xl overflow-hidden shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 flex flex-col border border-gray-800; 
+        }
+        .wine-card .card-content { @apply p-6 flex flex-col flex-grow; }
+        #toast-notification { transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; transform: translateY(100%); opacity: 0; }
+        #toast-notification.show { transform: translateY(0); opacity: 1; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-black bg-opacity-50 backdrop-blur-md">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="text-2xl font-playfair font-bold text-white">BNK Wine Room</a>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="index.html#about" class="text-gray-300 hover:text-white transition">Our Story</a>
+                    <a href="dashboard.html" class="text-gray-300 hover:text-white transition" aria-label="My Account"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg></a>
+                    <a href="cart.html" class="text-gray-300 hover:text-white transition relative" aria-label="Shopping Cart"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4z" /></svg><span id="cart-item-count" class="cart-badge hidden">0</span></a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <div class="text-center mb-12">
+            <h1 class="text-5xl font-playfair font-bold text-white">Old World Classics</h1>
+            <p class="text-lg text-gold mt-2">The timeless elegance of France.</p>
+        </div>
+        <div id="wine-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <!-- French wines will be dynamically inserted here -->
+        </div>
+    </main>
+
+    <div id="toast-notification" class="fixed bottom-5 right-5 bg-gold text-black p-4 rounded-lg shadow-lg max-w-sm z-50">
+        <p id="toast-message" class="font-semibold"></p>
+    </div>
+
+    <script>
+        const allWines = [
+            { id: 6, name: 'Chateau de Roques', price: 3390, country: 'France', type: 'Red', world: 'old', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Elegant structure, soft tannins, and great aging potential.', description_th: 'โครงสร้างหรูหรา แทนนินนุ่มนวล มีศักยภาพในการเก็บได้นาน', size: '75cls', abv: '14.5%' },
+            { id: 7, name: 'Villa Bordeaux', price: 1690, country: 'France', type: 'White', world: 'old', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Clean light yellow with pale green tones. Fresh crisp acidity with vibrant citrus flavors.', description_th: 'สีเหลืองอ่อนสะอาดพร้อมโทนสีเขียวอ่อน ให้ความสดชื่นและรสเปรี้ยวของซิตรัส', size: '75cls', abv: '12.5%' },
+            { id: 8, name: 'Château Valade', price: 1690, country: 'France', type: 'Red', world: 'old', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Beautiful ruby color with aromas of red fruits. Supple and fruity with fine tannins.', description_th: 'สีทับทิมสวยงามพร้อมกลิ่นหอมของผลไม้สีแดง เนื้อนุ่มและผลไม้พร้อมแทนนินละเอียด', size: '75cls', abv: '13%' },
+            { id: 9, name: 'Château Clavelins', price: 3590, country: 'France', type: 'Red', world: 'old', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Deep and rich with ripe fruit notes. Full-bodied, balanced, and enjoyable now.', description_th: 'เข้มข้นและเต็มไปด้วยโน้ตของผลไม้สุก ฟูลบอดี้ สมดุลและดื่มอร่อยได้เลย', size: '75cls', abv: '14%' },
+            { id: 10, name: 'Château Castenet', price: 1690, country: 'France', type: 'Red', world: 'old', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'A powerful nose developing aromas of black fruits. Fleshy with melted tannins and good length.', description_th: 'กลิ่นหอมทรงพลังของผลไม้สีดำ เนื้อแน่นพร้อมแทนนินที่ละลายและยาวนาน', size: '75cls', abv: '13.5%' },
+            { id: 11, name: 'La Maison Chardonnay', price: 1290, country: 'France', type: 'White', world: 'old', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Bright golden yellow with green highlights. Elegant fruity aromas with citrus and tropical notes.', description_th: 'สีเหลืองทองสว่างพร้อมประกายสีเขียว กลิ่นผลไม้หอมหรูหราพร้อมซิตรัสและโน้ตเมืองร้อน', size: '75cls', abv: '12.5%' },
+            { id: 12, name: 'Chateau Jean De Gue', price: 3590, country: 'France', type: 'Red', world: 'old', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Aromas of cedar, cassis, and tobacco dust. Full-bodied with a long and aromatic finish.', description_th: 'กลิ่นหอมของซีดาร์ แคสซิส และฝุ่นยาสูบ ฟูลบอดี้พร้อมรสชาติที่ยาวนานและหอม', size: '75cls', abv: '13%' },
+            { id: 13, name: 'Chateau Saint Antoine', price: 1650, country: 'France', type: 'Red', world: 'old', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Aromas of red and dense fruit. A balanced acidity with fine tannins and silky texture.', description_th: 'กลิ่นหอมของผลไม้สีแดงและเข้มข้น ความเป็นกรดที่สมดุลพร้อมแทนนินละเอียดและเนื้อสัมผัสเนียนนุ่ม', size: '75cls', abv: '13.5%' },
+        ];
+
+        const wineGrid = document.getElementById('wine-grid');
+
+        function renderWines() {
+            allWines.forEach(wine => {
+                const wineCard = document.createElement('div');
+                wineCard.className = 'wine-card';
+                wineCard.innerHTML = `
+                    <div class="relative h-80"><img src="${wine.image}" alt="${wine.name}" class="w-full h-full object-contain p-4"></div>
+                    <div class="card-content">
+                        <h3 class="text-xl font-playfair font-bold text-white">${wine.name}</h3>
+                        <p class="text-gold mt-1 text-sm">${wine.country}</p>
+                        
+                        <div class="mt-4 text-sm text-gray-400 space-y-2 flex-grow">
+                            <p>${wine.description}</p>
+                            <p class="text-gray-500">${wine.description_th}</p>
+                        </div>
+                        
+                        <div class="flex justify-between items-center text-sm text-gold mt-4 pt-4 border-t border-gray-800">
+                            <span>${wine.size}</span>
+                            <span>${wine.abv} ABV</span>
+                        </div>
+
+                        <div class="flex justify-between items-center mt-4">
+                            <p class="text-xl font-bold text-white">฿${wine.price.toLocaleString()}</p>
+                            <button class="btn-primary" onclick='addToCart(${JSON.stringify(wine)})'>Add</button>
+                        </div>
+                    </div>
+                `;
+                wineGrid.appendChild(wineCard);
+            });
+        }
+
+        function addToCart(product) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingItemIndex = cart.findIndex(item => item.id === product.id);
+            if (existingItemIndex > -1) {
+                cart[existingItemIndex].quantity += 1;
+            } else {
+                product.quantity = 1;
+                cart.push(product);
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            showToast(`${product.name} has been added to your cart.`);
+        }
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+            const countElement = document.getElementById('cart-item-count');
+            if (cartCount > 0) {
+                countElement.textContent = cartCount;
+                countElement.classList.remove('hidden');
+            } else {
+                countElement.classList.add('hidden');
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast-notification');
+            const toastMessage = document.getElementById('toast-message');
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartCount();
+            renderWines();
+        });
+    </script>
+</body>
+</html>
