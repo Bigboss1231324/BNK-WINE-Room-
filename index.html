@@ -252,13 +252,13 @@
 <script src="cart.js"></script>
 <script>
   function addToCart(name, price) {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    cart.push({ name, price });
-    localStorage.setItem('cart', JSON.stringify(cart));
-    setTimeout(() => {
-      window.location.href = 'cart.html';
-    }, 100); // หน่วง 100ms
-  }
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  cart.push({ name, price, quantity: 1 });
+  localStorage.setItem('cart', JSON.stringify(cart));
+  setTimeout(() => {
+    window.location.href = 'cart.html';
+  }, 100);
+}
 </script>
 <a href="cart.html" class="text-white hover:text-yellow-400 text-sm">🛒 ตะกร้าของฉัน</a>
 </body>
