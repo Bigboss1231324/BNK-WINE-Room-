@@ -127,7 +127,7 @@
     <div class="flex justify-between items-center mt-6">
       <p class="text-2xl font-bold text-white">฿1,990</p>
       <button class="text-sm btn-primary py-2 px-4"
-        onclick="addToCart({name: 'Octopoda Cabernet Sauvignon 2021', price: 1990})">
+        onclick="addToCart('Octopoda Cabernet Sauvignon 2021', 1990)"
   Add to Cart
 </button>
     </div>
@@ -249,4 +249,16 @@
 </body>
 </html>
 <script src="cart.js"></script>
+
+<script>
+  function addToCart(name, price) {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.push({ name, price });
+    localStorage.setItem('cart', JSON.stringify(cart));
+    window.location.href = 'cart.html'; // ส่งไปตะกร้า
+  }
+</script>
+
 <a href="cart.html" class="text-white hover:text-yellow-400 text-sm">🛒 ตะกร้าของฉัน</a>
+</body>
+</html>
