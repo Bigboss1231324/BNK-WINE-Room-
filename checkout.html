@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - BNK Wine Room</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #f3f3f3;
+            font-family: 'Inter', sans-serif;
+        }
+        .font-playfair {
+            font-family: 'Playfair Display', serif;
+        }
+        .bg-deep-red {
+            background-color: #800000;
+        }
+        .text-gold {
+            color: #c4a57f;
+        }
+        .btn-primary {
+            @apply w-full bg-deep-red text-white font-semibold py-4 px-8 rounded-lg shadow-md hover:bg-red-800 transition-all duration-300 ease-in-out transform hover:-translate-y-1;
+        }
+        .form-input {
+            @apply w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent transition-all;
+        }
+        .payment-option {
+            @apply border-2 border-gray-700 rounded-lg p-4 flex items-center cursor-pointer transition-all duration-200;
+        }
+        .payment-option.selected {
+            @apply border-gold bg-gray-900/50;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+        <div class="text-center mb-10">
+            <a href="index.html" class="text-3xl md:text-4xl font-playfair font-bold text-white">
+                BNK Wine Room
+            </a>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-20">
+            <!-- Left Side: Shipping & Payment -->
+            <div>
+                <!-- Contact Information -->
+                <section>
+                    <h2 class="text-2xl font-playfair font-bold text-white mb-4">Contact Information</h2>
+                    <div class="space-y-4">
+                        <input type="email" placeholder="Email Address" class="form-input">
+                    </div>
+                </section>
+
+                <!-- Shipping Address -->
+                <section class="mt-10">
+                    <h2 class="text-2xl font-playfair font-bold text-white mb-4">Shipping Address</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="text" placeholder="First Name" class="form-input">
+                        <input type="text" placeholder="Last Name" class="form-input">
+                        <textarea placeholder="Address" class="form-input col-span-2" rows="3"></textarea>
+                        <input type="text" placeholder="City" class="form-input">
+                        <input type="text" placeholder="Postal Code" class="form-input">
+                        <input type="tel" placeholder="Phone Number" class="form-input col-span-2">
+                    </div>
+                </section>
+
+                <!-- Payment Method -->
+                <section class="mt-10">
+                    <h2 class="text-2xl font-playfair font-bold text-white mb-4">Payment Method</h2>
+                    <div class="space-y-4" id="payment-options">
+                        <div class="payment-option selected" data-payment="card">
+                            <span class="flex-grow font-semibold">Credit / Debit Card</span>
+                            <div class="flex items-center space-x-2">
+                                <img src="https://img.icons8.com/color/48/000000/visa.png" alt="Visa" class="h-6"/>
+                                <img src="https://img.icons8.com/color/48/000000/mastercard.png" alt="Mastercard" class="h-6"/>
+                            </div>
+                        </div>
+                        <div class="payment-option" data-payment="promptpay">
+                            <span class="flex-grow font-semibold">PromptPay QR</span>
+                             <img src="https://img.icons8.com/ios-filled/50/ffffff/qr-code.png" alt="QR Code" class="h-6"/>
+                        </div>
+                        <div class="payment-option" data-payment="bank">
+                            <span class="flex-grow font-semibold">Bank Transfer</span>
+                             <img src="https://img.icons8.com/ios-filled/50/ffffff/bank.png" alt="Bank" class="h-6"/>
+                        </div>
+                    </div>
+                    <div id="payment-details" class="mt-4">
+                        <!-- Card Details -->
+                        <div id="card-details" class="space-y-4">
+                            <input type="text" placeholder="Card Number" class="form-input">
+                            <div class="grid grid-cols-2 gap-4">
+                                <input type="text" placeholder="MM / YY" class="form-input">
+                                <input type="text" placeholder="CVC" class="form-input">
+                            </div>
+                        </div>
+                         <!-- PromptPay Details -->
+                        <div id="promptpay-details" class="hidden text-center bg-gray-900/50 p-6 rounded-lg">
+                            <p class="text-gray-300">A unique QR code will be generated for you after placing the order.</p>
+                        </div>
+                        <!-- Bank Transfer Details -->
+                        <div id="bank-details" class="hidden bg-gray-900/50 p-6 rounded-lg">
+                             <p class="font-semibold text-white mb-2">Please transfer to:</p>
+                             <p class="text-gray-300">Bank: Kasikorn Bank</p>
+                             <p class="text-gray-300">Account: 123-4-56789-0</p>
+                             <p class="text-gray-300">Name: B.N.K. PATTAYA WINE GALLERY</p>
+                             <p class="mt-4 text-sm text-gold">Please send proof of payment to complete your order.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Side: Order Summary -->
+            <div class="bg-gray-900/50 rounded-2xl p-6 lg:p-8 h-fit sticky top-10">
+                <h2 class="text-2xl font-playfair font-bold text-white border-b border-gray-700 pb-4 mb-4">Order Summary</h2>
+                <div id="order-summary" class="space-y-4">
+                    <!-- Items will be populated by JS -->
+                </div>
+                <div class="py-4 border-t border-b border-gray-700 my-4 space-y-3">
+                    <div class="flex justify-between text-gray-300">
+                        <span>Subtotal</span>
+                        <span id="summary-subtotal">฿0</span>
+                    </div>
+                    <div class="flex justify-between text-gray-300">
+                        <span>Shipping</span>
+                        <span>Free</span>
+                    </div>
+                </div>
+                <div class="flex justify-between text-white font-bold text-xl">
+                    <span>Total</span>
+                    <span id="summary-total">฿0</span>
+                </div>
+                <div class="mt-8">
+                    <button class="btn-primary">Place Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const orderSummary = document.getElementById('order-summary');
+            const subtotalEl = document.getElementById('summary-subtotal');
+            const totalEl = document.getElementById('summary-total');
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            if (cart.length === 0) {
+                orderSummary.innerHTML = `<p class="text-gray-400 text-center">Your cart is empty.</p>`;
+            }
+
+            let subtotal = 0;
+            cart.forEach(item => {
+                subtotal += item.price * item.quantity;
+                const itemEl = document.createElement('div');
+                itemEl.className = 'flex items-center justify-between';
+                itemEl.innerHTML = `
+                    <div class="flex items-center">
+                        <div class="w-16 h-20 mr-4 flex-shrink-0">
+                            <img src="${item.image}" alt="${item.name}" class="w-full h-full object-contain rounded-md">
+                        </div>
+                        <div>
+                            <p class="font-semibold text-white">${item.name}</p>
+                            <p class="text-sm text-gray-400">Qty: ${item.quantity}</p>
+                        </div>
+                    </div>
+                    <p class="font-semibold text-white">฿${(item.price * item.quantity).toLocaleString()}</p>
+                `;
+                orderSummary.appendChild(itemEl);
+            });
+
+            subtotalEl.textContent = `฿${subtotal.toLocaleString()}`;
+            totalEl.textContent = `฿${subtotal.toLocaleString()}`;
+
+            // Payment method selection
+            const paymentOptions = document.querySelectorAll('.payment-option');
+            const cardDetails = document.getElementById('card-details');
+            const promptpayDetails = document.getElementById('promptpay-details');
+            const bankDetails = document.getElementById('bank-details');
+
+            paymentOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    paymentOptions.forEach(opt => opt.classList.remove('selected'));
+                    option.classList.add('selected');
+
+                    cardDetails.classList.add('hidden');
+                    promptpayDetails.classList.add('hidden');
+                    bankDetails.classList.add('hidden');
+
+                    const paymentMethod = option.getAttribute('data-payment');
+                    if (paymentMethod === 'card') {
+                        cardDetails.classList.remove('hidden');
+                    } else if (paymentMethod === 'promptpay') {
+                        promptpayDetails.classList.remove('hidden');
+                    } else if (paymentMethod === 'bank') {
+                        bankDetails.classList.remove('hidden');
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
