@@ -17,15 +17,42 @@
         .font-playfair { font-family: 'Playfair Display', serif; }
         .bg-deep-red { background-color: #800000; }
         .text-gold { color: #c4a57f; }
-        .btn-primary { @apply bg-deep-red text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-red-800 transition-all duration-300 ease-in-out transform hover:-translate-y-1; }
+        .btn-primary { @apply bg-deep-red text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-red-800 transition-all duration-300 ease-in-out transform; }
         .cart-badge { @apply absolute -top-2 -right-2 bg-gold text-black text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center; }
         .wine-card { 
             background-color: rgba(0, 0, 0, 0.4);
             @apply rounded-xl overflow-hidden shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 flex flex-col border border-gray-800; 
         }
         .wine-card .card-content { @apply p-6 flex flex-col flex-grow; }
+        
+        .wine-card .image-container {
+            @apply relative h-80 overflow-hidden;
+        }
+        .wine-card img {
+            transition: transform 0.4s ease-in-out;
+        }
+        .wine-card:hover img {
+            transform: scale(1.1);
+        }
+        .wine-card .btn-primary {
+            transition: transform 0.4s ease-in-out;
+        }
+        .wine-card:hover .btn-primary {
+            transform: scale(1.1);
+        }
+
         #toast-notification { transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; transform: translateY(100%); opacity: 0; }
         #toast-notification.show { transform: translateY(0); opacity: 1; }
+        
+        .animate-on-scroll { 
+            opacity: 0; 
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .animate-on-scroll.is-visible { 
+            opacity: 1; 
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -45,14 +72,26 @@
     </header>
 
     <main class="container mx-auto px-6 py-12">
-        <div class="text-center mb-12">
+        <div class="text-center mb-16">
             <h1 class="text-5xl font-playfair font-bold text-white">Old World Classics</h1>
             <p class="text-lg text-gold mt-2">The timeless elegance of France.</p>
         </div>
-        <div id="wine-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div id="wine-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             <!-- French wines will be dynamically inserted here -->
         </div>
     </main>
+
+    <!-- Footer Section -->
+    <footer id="contact" class="bg-black py-12 border-t border-gray-800 mt-24">
+        <div class="container mx-auto px-6 text-center text-gray-500">
+            <h3 class="text-2xl font-playfair text-white mb-2">BNK Wine Room</h3>
+            <p>A presentation of B.N.K. PATTAYA WINE GALLERY CO.,LTD.</p>
+            <p class="mt-4">Na Chom Thian, Chon Buri, Thailand</p>
+            <div class="mt-8 text-sm">
+                <p>&copy; 2025 B.N.K. PATTAYA WINE GALLERY CO.,LTD. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <div id="toast-notification" class="fixed bottom-5 right-5 bg-gold text-black p-4 rounded-lg shadow-lg max-w-sm z-50">
         <p id="toast-message" class="font-semibold"></p>
@@ -60,40 +99,41 @@
 
     <script>
         const allWines = [
-            { id: 6, name: 'Chateau de Roques', price: 3390, country: 'France', type: 'Red', world: 'old', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Elegant structure, soft tannins, and great aging potential.', description_th: 'โครงสร้างหรูหรา แทนนินนุ่มนวล มีศักยภาพในการเก็บได้นาน', size: '75cls', abv: '14.5%' },
-            { id: 7, name: 'Villa Bordeaux', price: 1690, country: 'France', type: 'White', world: 'old', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Clean light yellow with pale green tones. Fresh crisp acidity with vibrant citrus flavors.', description_th: 'สีเหลืองอ่อนสะอาดพร้อมโทนสีเขียวอ่อน ให้ความสดชื่นและรสเปรี้ยวของซิตรัส', size: '75cls', abv: '12.5%' },
-            { id: 8, name: 'Château Valade', price: 1690, country: 'France', type: 'Red', world: 'old', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Beautiful ruby color with aromas of red fruits. Supple and fruity with fine tannins.', description_th: 'สีทับทิมสวยงามพร้อมกลิ่นหอมของผลไม้สีแดง เนื้อนุ่มและผลไม้พร้อมแทนนินละเอียด', size: '75cls', abv: '13%' },
-            { id: 9, name: 'Château Clavelins', price: 3590, country: 'France', type: 'Red', world: 'old', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Deep and rich with ripe fruit notes. Full-bodied, balanced, and enjoyable now.', description_th: 'เข้มข้นและเต็มไปด้วยโน้ตของผลไม้สุก ฟูลบอดี้ สมดุลและดื่มอร่อยได้เลย', size: '75cls', abv: '14%' },
-            { id: 10, name: 'Château Castenet', price: 1690, country: 'France', type: 'Red', world: 'old', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'A powerful nose developing aromas of black fruits. Fleshy with melted tannins and good length.', description_th: 'กลิ่นหอมทรงพลังของผลไม้สีดำ เนื้อแน่นพร้อมแทนนินที่ละลายและยาวนาน', size: '75cls', abv: '13.5%' },
-            { id: 11, name: 'La Maison Chardonnay', price: 1290, country: 'France', type: 'White', world: 'old', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Bright golden yellow with green highlights. Elegant fruity aromas with citrus and tropical notes.', description_th: 'สีเหลืองทองสว่างพร้อมประกายสีเขียว กลิ่นผลไม้หอมหรูหราพร้อมซิตรัสและโน้ตเมืองร้อน', size: '75cls', abv: '12.5%' },
-            { id: 12, name: 'Chateau Jean De Gue', price: 3590, country: 'France', type: 'Red', world: 'old', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Aromas of cedar, cassis, and tobacco dust. Full-bodied with a long and aromatic finish.', description_th: 'กลิ่นหอมของซีดาร์ แคสซิส และฝุ่นยาสูบ ฟูลบอดี้พร้อมรสชาติที่ยาวนานและหอม', size: '75cls', abv: '13%' },
-            { id: 13, name: 'Chateau Saint Antoine', price: 1650, country: 'France', type: 'Red', world: 'old', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Aromas of red and dense fruit. A balanced acidity with fine tannins and silky texture.', description_th: 'กลิ่นหอมของผลไม้สีแดงและเข้มข้น ความเป็นกรดที่สมดุลพร้อมแทนนินละเอียดและเนื้อสัมผัสเนียนนุ่ม', size: '75cls', abv: '13.5%' },
+            { id: 6, name: 'Chateau de Roques', price: 3390, country: 'France', type: 'Red', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Elegant structure, soft tannins, and great aging potential.', description_th: 'โครงสร้างหรูหรา แทนนินนุ่มนวล มีศักยภาพในการเก็บได้นาน', size: '75cls', abv: '14.5%' },
+            { id: 7, name: 'Villa Bordeaux', price: 1690, country: 'France', type: 'White', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Clean light yellow with pale green tones. Fresh crisp acidity with vibrant citrus flavors.', description_th: 'สีเหลืองอ่อนสะอาดพร้อมโทนสีเขียวอ่อน ให้ความสดชื่นและรสเปรี้ยวของซิตรัส', size: '75cls', abv: '12.5%' },
+            { id: 8, name: 'Château Valade', price: 1690, country: 'France', type: 'Red', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Beautiful ruby color with aromas of red fruits. Supple and fruity with fine tannins.', description_th: 'สีทับทิมสวยงามพร้อมกลิ่นหอมของผลไม้สีแดง เนื้อนุ่มและผลไม้พร้อมแทนนินละเอียด', size: '75cls', abv: '13%' },
+            { id: 9, name: 'Château Clavelins', price: 3590, country: 'France', type: 'Red', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Deep and rich with ripe fruit notes. Full-bodied, balanced, and enjoyable now.', description_th: 'เข้มข้นและเต็มไปด้วยโน้ตของผลไม้สุก ฟูลบอดี้ สมดุลและดื่มอร่อยได้เลย', size: '75cls', abv: '14%' },
+            { id: 10, name: 'Château Castenet', price: 1690, country: 'France', type: 'Red', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'A powerful nose developing aromas of black fruits. Fleshy with melted tannins and good length.', description_th: 'กลิ่นหอมทรงพลังของผลไม้สีดำ เนื้อแน่นพร้อมแทนนินที่ละลายและยาวนาน', size: '75cls', abv: '13.5%' },
+            { id: 11, name: 'La Maison Chardonnay', price: 1290, country: 'France', type: 'White', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Bright golden yellow with green highlights. Elegant fruity aromas with citrus and tropical notes.', description_th: 'สีเหลืองทองสว่างพร้อมประกายสีเขียว กลิ่นผลไม้หอมหรูหราพร้อมซิตรัสและโน้ตเมืองร้อน', size: '75cls', abv: '12.5%' },
+            { id: 12, name: 'Chateau Jean De Gue', price: 3590, country: 'France', type: 'Red', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Aromas of cedar, cassis, and tobacco dust. Full-bodied with a long and aromatic finish.', description_th: 'กลิ่นหอมของซีดาร์ แคสซิส และฝุ่นยาสูบ ฟูลบอดี้พร้อมรสชาติที่ยาวนานและหอม', size: '75cls', abv: '13%' },
+            { id: 13, name: 'Chateau Saint Antoine', price: 1650, country: 'France', type: 'Red', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Aromas of red and dense fruit. A balanced acidity with fine tannins and silky texture.', description_th: 'กลิ่นหอมของผลไม้สีแดงและเข้มข้น ความเป็นกรดที่สมดุลพร้อมแทนนินละเอียดและเนื้อสัมผัสเนียนนุ่ม', size: '75cls', abv: '13.5%' },
         ];
 
         const wineGrid = document.getElementById('wine-grid');
 
         function renderWines() {
-            allWines.forEach(wine => {
+            allWines.forEach((wine, index) => {
                 const wineCard = document.createElement('div');
-                wineCard.className = 'wine-card';
+                wineCard.className = 'wine-card animate-on-scroll';
+                wineCard.style.transitionDelay = `${index * 100}ms`;
+
                 wineCard.innerHTML = `
-                    <div class="relative h-80"><img src="${wine.image}" alt="${wine.name}" class="w-full h-full object-contain p-4"></div>
+                    <div class="image-container">
+                        <img src="${wine.image}" alt="${wine.name}" class="w-full h-full object-contain p-4">
+                    </div>
                     <div class="card-content">
                         <h3 class="text-xl font-playfair font-bold text-white">${wine.name}</h3>
                         <p class="text-gold mt-1 text-sm">${wine.country}</p>
-                        
                         <div class="mt-4 text-sm text-gray-400 space-y-2 flex-grow">
                             <p>${wine.description}</p>
                             <p class="text-gray-500">${wine.description_th}</p>
                         </div>
-                        
                         <div class="flex justify-between items-center text-sm text-gold mt-4 pt-4 border-t border-gray-800">
                             <span>${wine.size}</span>
                             <span>${wine.abv} ABV</span>
                         </div>
-
                         <div class="flex justify-between items-center mt-4">
-                            <p class="text-xl font-bold text-white">฿${wine.price.toLocaleString()}</p>
+                            <p class="text-xl font-bold text-white">฿${wine.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
                             <button class="btn-primary" onclick='addToCart(${JSON.stringify(wine)})'>Add</button>
                         </div>
                     </div>
@@ -136,9 +176,23 @@
             setTimeout(() => { toast.classList.remove('show'); }, 3000);
         }
 
+        function setupScrollAnimations() {
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            animatedElements.forEach(el => { observer.observe(el); });
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             updateCartCount();
             renderWines();
+            setupScrollAnimations();
         });
     </script>
 </body>
