@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New World Wines - BNK Wine Room</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            background-color: #0a0a0a; 
+            color: #f3f3f3; 
+            font-family: 'Inter', sans-serif; 
+        }
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .bg-deep-red { background-color: #800000; }
+        .text-gold { color: #c4a57f; }
+        .btn-primary { @apply bg-deep-red text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-red-800 transition-all duration-300 ease-in-out transform; }
+        .cart-badge { @apply absolute -top-2 -right-2 bg-gold text-black text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center; }
+        .wine-card { 
+            background-color: rgba(0, 0, 0, 0.4);
+            @apply rounded-xl overflow-hidden shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 flex flex-col border border-gray-800; 
+        }
+        .wine-card .card-content { @apply p-6 flex flex-col flex-grow; }
+        
+        .wine-card .image-container {
+            @apply relative h-80 overflow-hidden;
+        }
+        .wine-card img {
+            transition: transform 0.4s ease-in-out;
+        }
+        .wine-card:hover img {
+            transform: scale(1.1);
+        }
+        .wine-card .btn-primary {
+            transition: transform 0.4s ease-in-out;
+        }
+        .wine-card:hover .btn-primary {
+            transform: scale(1.1);
+        }
+
+        #toast-notification { transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; transform: translateY(100%); opacity: 0; }
+        #toast-notification.show { transform: translateY(0); opacity: 1; }
+        .country-heading {
+            @apply text-5xl font-playfair font-bold text-white border-b-2 border-gold pb-3 mb-10;
+        }
+        .animate-on-scroll { 
+            opacity: 0; 
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .animate-on-scroll.is-visible { 
+            opacity: 1; 
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-black bg-opacity-50 backdrop-blur-md">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="text-2xl font-playfair font-bold text-white">BNK Wine Room</a>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="index.html#about" class="text-gray-300 hover:text-white transition">Our Story</a>
+                    <a href="dashboard.html" class="text-gray-300 hover:text-white transition" aria-label="My Account"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg></a>
+                    <a href="cart.html" class="text-gray-300 hover:text-white transition relative" aria-label="Shopping Cart"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4z" /></svg><span id="cart-item-count" class="cart-badge hidden">0</span></a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <div class="text-center mb-16">
+            <h1 class="text-5xl font-playfair font-bold text-white">New World Selections</h1>
+            <p class="text-lg text-gold mt-2">Bold expressions from California, Australia, and Chile.</p>
+        </div>
+        <div id="wine-sections" class="space-y-16">
+            <!-- Wine sections will be dynamically inserted here -->
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer id="contact" class="bg-black py-12 border-t border-gray-800 mt-24">
+        <div class="container mx-auto px-6 text-center text-gray-500">
+            <h3 class="text-2xl font-playfair text-white mb-2">BNK Wine Room</h3>
+            <p>A presentation of B.N.K. PATTAYA WINE GALLERY CO.,LTD.</p>
+            <p class="mt-4">Na Chom Thian, Chon Buri, Thailand</p>
+            <div class="mt-8 text-sm">
+                <p>&copy; 2025 B.N.K. PATTAYA WINE GALLERY CO.,LTD. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="toast-notification" class="fixed bottom-5 right-5 bg-gold text-black p-4 rounded-lg shadow-lg max-w-sm z-50">
+        <p id="toast-message" class="font-semibold"></p>
+    </div>
+
+    <script>
+        const allWines = [
+            // California
+            { id: 1, name: 'Octopoda Cabernet', price: 1990, country: 'California', type: 'Red', image: 'https://i.ibb.co/L5BKn3w/octopoda.png', description: 'Full-bodied with bold fruit, balanced tannins, and a long finish.', description_th: 'ฟูลบอดี้พร้อมผลไม้เด่นชัด แทนนินสมดุล และจบยาว', size: '75cls', abv: '14.5%' },
+            { id: 2, name: 'Wind Storm Red', price: 1590, country: 'California', type: 'Red', image: 'https://i.ibb.co/D9p2G28/windstorm.png', description: 'Aroma of rich black cherry, plum, and cocoa. Full-bodied with well-structured tannins.', description_th: 'กลิ่นหอมของแบล็คเชอร์รี่ พลัม และโกโก้ ฟูลบอดี้พร้อมโครงสร้างแทนนินที่ดี', size: '75cls', abv: '14.5%' },
+            { id: 3, name: 'Method Red Wine', price: 2290, country: 'California', type: 'Red', image: 'https://i.ibb.co/G03g4m7/method.png', description: 'Full-bodied with rich dark fruit, hints of spice, and dusty earth notes.', description_th: 'ฟูลบอดี้พร้อมผลไม้สีเข้ม เครื่องเทศ และกลิ่นดิน', size: '75cls', abv: '14.5%' },
+            { id: 4, name: 'Xanthos Cabernet', price: 1490, country: 'California', type: 'Red', image: 'https://i.ibb.co/vYxVzB0/xanthos.png', description: 'Smooth tannins, layered dark fruit flavors, and a refined finish.', description_th: 'แทนนินเนียนนุ่ม รสชาติผลไม้สีเข้มซับซ้อน และจบอย่างมีระดับ', size: '75cls', abv: '14.5%' },
+            { id: 5, name: 'Navigator Cabernet', price: 1590, country: 'California', type: 'Red', image: 'https://i.ibb.co/z5bSKZf/navigator.png', description: 'Rich and smooth with soft tannins and a lengthy finish.', description_th: 'เข้มข้นและเนียนนุ่มด้วยแทนนินอ่อนๆ และจบยาว', size: '75cls', abv: '14.5%' },
+            // Australia (White First)
+            { id: 16, name: 'St. John Crush Sauvignon Blanc', price: 1290, country: 'Australia', type: 'White', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Aroma: Bursting with zesty lemon and lime. Palate: Vibrant, lively, and refreshing.', description_th: 'กลิ่นหอมสดชื่นของมะนาวและเลมอน รสชาติมีชีวิตชีวาและสดชื่น', size: '75cls', abv: '12%' },
+            // Australia (Red)
+            { id: 14, name: 'St. John Crush Cabernet', price: 1290, country: 'Australia', type: 'Red', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Aroma: Vibrant red fruit, shifting to blueberry and blackberry. Palate: Juicy and approachable.', description_th: 'กลิ่นผลไม้สีแดงสดใส บลูเบอร์รี่ และแบล็คเบอร์รี่ รสชาติฉ่ำและเข้าถึงง่าย', size: '75cls', abv: '14%' },
+            { id: 15, name: 'St. John Crush Shiraz', price: 1290, country: 'Australia', type: 'Red', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Aroma: Black cherry, licorice, and dark fruit with spicy chocolate. Palate: Deep, rich tannins.', description_th: 'กลิ่นแบล็คเชอร์รี่ ชะเอมเทศ และผลไม้สีเข้มพร้อมช็อกโกแลตเผ็ดร้อน แทนนินเข้มข้น', size: '75cls', abv: '15%' },
+            { id: 17, name: 'St. Johns Brook Récolte', price: 1590, country: 'Australia', type: 'Red', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Aroma: Black cherry, cassis, and chocolate with hints of French oak. Palate: Rich and complex.', description_th: 'กลิ่นแบล็คเชอร์รี่ แคสซิส และช็อกโกแลตพร้อมกลิ่นโอ๊คฝรั่งเศส รสชาติเข้มข้นและซับซ้อน', size: '75cls', abv: '14.5%' },
+            // Chile (White First)
+            { id: 22, name: 'Amparo Chardonnay', price: 990, country: 'Chile', type: 'White', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Aroma: Fresh citrus with soft oak and floral hints. Palate: Smooth and balanced.', description_th: 'กลิ่นซิตรัสสดชื่นพร้อมโอ๊คอ่อนๆ และดอกไม้ รสชาติเนียนนุ่มและสมดุล', size: '75cls', abv: '13.5%' },
+            { id: 23, name: 'Amparo Sauvignon Blanc', price: 990, country: 'Chile', type: 'White', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Aroma: Tropical fruit, citrus, and fresh herbs. Palate: Zesty acidity with juicy citrus.', description_th: 'กลิ่นผลไม้เมืองร้อน ซิตรัส และสมุนไพรสด ความเป็นกรดที่สดชื่นพร้อมซิตรัสฉ่ำๆ', size: '75cls', abv: '13.5%' },
+            { id: 24, name: 'Nukura Sauvignon Blanc', price: 890, country: 'Chile', type: 'White', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Aroma: Fresh herbs and citrus. Palate: Crisp and refreshing with bright citric notes.', description_th: 'กลิ่นสมุนไพรสดและซิตรัส รสชาติกรอบและสดชื่นพร้อมโน้ตซิตรัสสว่าง', size: '75cls', abv: '13.5%' },
+            { id: 25, name: 'Amparo Chardonnay Reserva', price: 1290, country: 'Chile', type: 'White', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Aroma: Tropical fruit, banana, melon, pineapple, and toasted oak. Palate: Crisp and mineral-driven.', description_th: 'กลิ่นผลไม้เมืองร้อน กล้วย เมล่อน สับปะรด และโอ๊คคั่ว รสชาติกรอบและมีแร่ธาตุ', size: '75cls', abv: '13.5%' },
+            // Chile (Red)
+            { id: 18, name: 'Amparo Cabernet', price: 990, country: 'Chile', type: 'Red', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Aroma: Red fruit, strawberry, and plum with hints of oak. Palate: Full-bodied, smooth tannins.', description_th: 'กลิ่นผลไม้สีแดง สตรอว์เบอร์รี่ และพลัมพร้อมกลิ่นโอ๊ค ฟูลบอดี้ แทนนินเนียนนุ่ม', size: '75cls', abv: '13.5%' },
+            { id: 19, name: 'Nukura Cabernet', price: 890, country: 'Chile', type: 'Red', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Aroma: Red fruit, strawberry, and plum. Palate: Medium-bodied, soft tannins, and balanced.', description_th: 'กลิ่นผลไม้สีแดง สตรอว์เบอร์รี่ และพลัม มีเดียมบอดี้ แทนนินนุ่มนวล และสมดุล', size: '75cls', abv: '13.5%' },
+            { id: 20, name: 'Amparo Merlot', price: 990, country: 'Chile', type: 'Red', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Aroma: Ripe fruit with hints of spice. Palate: Full-bodied, silky tannins, and a smooth, long finish.', description_th: 'กลิ่นผลไม้สุกพร้อมเครื่องเทศ ฟูลบอดี้ แทนนินเนียนนุ่ม และจบยาวอย่างนุ่มนวล', size: '75cls', abv: '13.3%' },
+            { id: 21, name: 'Amparo Carménère', price: 990, country: 'Chile', type: 'Red', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Aroma: Blackberry and dark fruit with subtle spice. Palate: Rich, velvety tannins, balanced acidity.', description_th: 'กลิ่นแบล็คเบอร์รี่และผลไม้สีเข้มพร้อมเครื่องเทศอ่อนๆ รสชาติเข้มข้น แทนนินนุ่มนวล ความเป็นกรดสมดุล', size: '75cls', abv: '13.5%' },
+            { id: 26, name: 'Amparo Cabernet Reserva', price: 1290, country: 'Chile', type: 'Red', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Aroma: Red fruit, plum, and strawberry with hints of black pepper and cedar. Palate: Balanced acidity.', description_th: 'กลิ่นผลไม้สีแดง พลัม และสตรอว์เบอร์รี่พร้อมพริกไทยดำและซีดาร์ ความเป็นกรดสมดุล', size: '75cls', abv: '13.5%' },
+            { id: 27, name: 'Amparo Carménère Reserva', price: 1290, country: 'Chile', type: 'Red', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Aroma: Ripe dark berries with hints of spice and oak. Palate: Full-bodied, smooth tannins.', description_th: 'กลิ่นเบอร์รี่สีเข้มสุกพร้อมเครื่องเทศและโอ๊ค ฟูลบอดี้ แทนนินเนียนนุ่ม', size: '75cls', abv: '13.5%' },
+            { id: 28, name: 'Amparo Carménère Gran Reserva', price: 1590, country: 'Chile', type: 'Red', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Palate: Full body, great concentration, with velvety tannins, balanced acidity, and lovely blueberries.', description_th: 'ฟูลบอดี้ เข้มข้นสูง แทนนินนุ่มนวล ความเป็นกรดสมดุล และบลูเบอร์รี่น่ารัก', size: '75cls', abv: '13.5%' },
+            { id: 29, name: 'Amparo Cabernet Gran Reserva', price: 1590, country: 'Chile', type: 'Red', image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Wine', description: 'Aroma: Black and red berries with vanilla, clove, and toasted oak. Palate: Full-bodied, smooth tannins.', description_th: 'กลิ่นเบอร์รี่สีดำและแดงพร้อมวานิลลา กานพลู และโอ๊คคั่ว ฟูลบอดี้ แทนนินเนียนนุ่ม', size: '75cls', abv: '13.5%' },
+        ];
+
+        const wineSectionsContainer = document.getElementById('wine-sections');
+
+        function renderWines() {
+            const countries = ['California', 'Australia', 'Chile'];
+            
+            countries.forEach(country => {
+                const sectionEl = document.createElement('section');
+                sectionEl.className = 'animate-on-scroll';
+                
+                const headingEl = document.createElement('h2');
+                headingEl.className = 'country-heading';
+                headingEl.textContent = country;
+                sectionEl.appendChild(headingEl);
+
+                const gridEl = document.createElement('div');
+                gridEl.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8';
+                
+                const countryWines = allWines
+                    .filter(wine => wine.country === country)
+                    .sort((a, b) => {
+                        if (a.type === 'White' && b.type === 'Red') return -1;
+                        if (a.type === 'Red' && b.type === 'White') return 1;
+                        return 0;
+                    });
+
+                countryWines.forEach(wine => {
+                    const wineCard = document.createElement('div');
+                    wineCard.className = 'wine-card';
+                    wineCard.innerHTML = `
+                        <div class="image-container">
+                            <img src="${wine.image}" alt="${wine.name}" class="w-full h-full object-contain p-4">
+                        </div>
+                        <div class="card-content">
+                            <h3 class="text-xl font-playfair font-bold text-white">${wine.name}</h3>
+                            <p class="text-gold mt-1 text-sm">${wine.country}</p>
+                            <div class="mt-4 text-sm text-gray-400 space-y-2 flex-grow">
+                                <p>${wine.description}</p>
+                                <p class="text-gray-500">${wine.description_th}</p>
+                            </div>
+                            <div class="flex justify-between items-center text-sm text-gold mt-4 pt-4 border-t border-gray-800">
+                                <span>${wine.size}</span>
+                                <span>${wine.abv} ABV</span>
+                            </div>
+                            <div class="flex justify-between items-center mt-4">
+                                <p class="text-xl font-bold text-white">฿${wine.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                                <button class="btn-primary" onclick='addToCart(${JSON.stringify(wine)})'>Add</button>
+                            </div>
+                        </div>
+                    `;
+                    gridEl.appendChild(wineCard);
+                });
+
+                sectionEl.appendChild(gridEl);
+                wineSectionsContainer.appendChild(sectionEl);
+            });
+        }
+
+        function addToCart(product) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingItemIndex = cart.findIndex(item => item.id === product.id);
+            if (existingItemIndex > -1) {
+                cart[existingItemIndex].quantity += 1;
+            } else {
+                product.quantity = 1;
+                cart.push(product);
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            showToast(`${product.name} has been added to your cart.`);
+        }
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+            const countElement = document.getElementById('cart-item-count');
+            if (cartCount > 0) {
+                countElement.textContent = cartCount;
+                countElement.classList.remove('hidden');
+            } else {
+                countElement.classList.add('hidden');
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast-notification');
+            const toastMessage = document.getElementById('toast-message');
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 3000);
+        }
+
+        function setupScrollAnimations() {
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            animatedElements.forEach(el => { observer.observe(el); });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartCount();
+            renderWines();
+            setupScrollAnimations();
+        });
+    </script>
+</body>
+</html>
