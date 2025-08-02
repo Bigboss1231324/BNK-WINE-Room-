@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - BNK Wine Room</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #f3f3f3;
+            font-family: 'Inter', sans-serif;
+        }
+        .font-playfair {
+            font-family: 'Playfair Display', serif;
+        }
+        .bg-deep-red {
+            background-color: #800000;
+        }
+        .text-gold {
+            color: #c4a57f;
+        }
+        .border-gold {
+            border-color: #c4a57f;
+        }
+        .btn-primary {
+             @apply bg-deep-red text-white font-semibold py-2 px-6 rounded-lg hover:bg-red-800 transition-all duration-300 ease-in-out text-sm;
+        }
+        .btn-secondary {
+            @apply border-2 border-gold text-gold font-semibold py-2 px-6 rounded-lg hover:bg-gold hover:text-black transition-all duration-300 ease-in-out text-sm;
+        }
+        .dashboard-nav-item {
+            @apply block w-full text-left px-4 py-3 rounded-md text-gray-300 hover:bg-gray-800 hover:text-white transition-colors;
+        }
+        .dashboard-nav-item.active {
+            @apply bg-deep-red text-white font-semibold;
+        }
+        .wine-rec-card {
+            @apply flex-shrink-0 w-64 bg-gray-900 rounded-lg overflow-hidden shadow-lg transform transition-transform duration-300 hover:-translate-y-2;
+        }
+        .form-input {
+            @apply w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent transition-all;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="bg-black bg-opacity-50 backdrop-blur-md">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="text-2xl font-playfair font-bold text-white">
+                    BNK Wine Room
+                </a>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="index.html#wines" class="text-gray-300 hover:text-white transition">Our Wines</a>
+                    <a href="cart.html" class="text-gray-300 hover:text-white transition">Cart</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12 md:py-20">
+        <div class="grid lg:grid-cols-4 gap-8 lg:gap-12">
+            <!-- Left Side: Navigation -->
+            <aside class="lg:col-span-1">
+                <div class="bg-gray-900/50 p-4 rounded-lg">
+                    <!-- Profile Header -->
+                    <div class="flex items-center justify-between p-2 mb-6 border-b border-gray-800 pb-6">
+                        <div class="flex items-center">
+                            <img src="https://placehold.co/64x64/800000/FFFFFF?text=B" alt="Profile Picture" class="w-16 h-16 rounded-full object-cover">
+                            <div class="ml-4">
+                                <p class="font-bold text-white text-lg">Bigboss</p>
+                                <p class="text-sm text-gold">Platinum Member</p>
+                            </div>
+                        </div>
+                        <a href="settings.html" class="text-gray-500 hover:text-gold transition-colors" title="Settings">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </a>
+                    </div>
+                    <nav id="dashboard-nav" class="space-y-2">
+                        <button data-view="orders" class="dashboard-nav-item active">Order History</button>
+                        <button data-view="profile" class="dashboard-nav-item">Profile Details</button>
+                        <button data-view="addresses" class="dashboard-nav-item">Saved Addresses</button>
+                        <a href="#" class="!mt-6 block w-full text-left px-4 py-3 rounded-md text-red-400 hover:bg-red-800/50 hover:text-white transition-colors">Logout</a>
+                    </nav>
+                </div>
+            </aside>
+
+            <!-- Right Side: Content -->
+            <div class="lg:col-span-3">
+                <div class="mb-10">
+                    <h1 class="text-4xl md:text-5xl font-playfair font-bold text-white">Dashboard</h1>
+                </div>
+                <!-- Order History View (Default) -->
+                <div id="orders-view" class="view-content bg-gray-900/50 p-6 lg:p-8 rounded-lg">
+                    <h2 class="text-2xl font-playfair font-bold text-white mb-6">Order History</h2>
+                    <div class="space-y-6">
+                        <!-- Sample Order 1 -->
+                        <div class="border border-gray-800 rounded-lg p-4">
+                            <div class="flex flex-wrap justify-between items-center gap-4">
+                                <div><p class="font-bold text-white">Order #BNK1024</p><p class="text-sm text-gray-400">Date: 28 July 2025</p></div>
+                                <div><span class="bg-green-500/20 text-green-400 text-xs font-semibold px-2.5 py-1 rounded-full">Delivered</span></div>
+                                <p class="font-semibold text-lg text-white">฿6,570.00</p>
+                                <button class="btn-secondary">View Details</button>
+                            </div>
+                        </div>
+                        <!-- Sample Order 2 -->
+                        <div class="border border-gray-800 rounded-lg p-4">
+                            <div class="flex flex-wrap justify-between items-center gap-4">
+                                <div><p class="font-bold text-white">Order #BNK1017</p><p class="text-sm text-gray-400">Date: 15 June 2025</p></div>
+                                <div><span class="bg-yellow-500/20 text-yellow-400 text-xs font-semibold px-2.5 py-1 rounded-full">Processing</span></div>
+                                <p class="font-semibold text-lg text-white">฿2,290.00</p>
+                                <button class="btn-secondary">Track Order</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Details View -->
+                <div id="profile-view" class="view-content hidden bg-gray-900/50 p-6 lg:p-8 rounded-lg">
+                    <h2 class="text-2xl font-playfair font-bold text-white mb-6">Profile Details</h2>
+                    <div class="flex items-center mb-8">
+                        <img src="https://placehold.co/96x96/800000/FFFFFF?text=B" alt="Profile Picture" class="w-24 h-24 rounded-full object-cover">
+                        <div class="ml-6">
+                            <button class="btn-secondary">Upload New Picture</button>
+                            <p class="text-xs text-gray-400 mt-2">PNG, JPG up to 5MB.</p>
+                        </div>
+                    </div>
+                    <form class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-1">Full Name</label>
+                            <input type="text" value="Bigboss" class="form-input">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-1">Email Address</label>
+                            <input type="email" value="bigboss@bnkwineroom.com" class="form-input">
+                        </div>
+                        <div class="pt-4">
+                            <button type="submit" class="btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Addresses View -->
+                <div id="addresses-view" class="view-content hidden bg-gray-900/50 p-6 lg:p-8 rounded-lg">
+                     <h2 class="text-2xl font-playfair font-bold text-white mb-6">Saved Addresses</h2>
+                     <p class="text-gray-400">You have not saved any addresses yet.</p>
+                </div>
+
+
+                <!-- Recommendations Section -->
+                <div class="mt-12">
+                    <h2 class="text-2xl font-playfair font-bold text-white mb-6">You Might Also Like</h2>
+                    <div class="flex space-x-6 overflow-x-auto pb-4">
+                        <div class="wine-rec-card"><img src="https://i.ibb.co/L5BKn3w/octopoda.png" alt="Octopoda Wine" class="h-48 w-full object-contain p-4"><div class="p-4"><h3 class="font-semibold text-white">Octopoda Cabernet</h3><p class="text-gold text-sm">฿1,990</p></div></div>
+                        <div class="wine-rec-card"><img src="https://i.ibb.co/D9p2G28/windstorm.png" alt="Wind Storm Wine" class="h-48 w-full object-contain p-4"><div class="p-4"><h3 class="font-semibold text-white">Wind Storm Red</h3><p class="text-gold text-sm">฿1,590</p></div></div>
+                        <div class="wine-rec-card"><img src="https://i.ibb.co/G03g4m7/method.png" alt="Method Wine" class="h-48 w-full object-contain p-4"><div class="p-4"><h3 class="font-semibold text-white">Method Red Wine</h3><p class="text-gold text-sm">฿2,290</p></div></div>
+                        <div class="wine-rec-card"><img src="https://i.ibb.co/vYxVzB0/xanthos.png" alt="Xanthos Wine" class="h-48 w-full object-contain p-4"><div class="p-4"><h3 class="font-semibold text-white">Xanthos Cabernet</h3><p class="text-gold text-sm">฿1,490</p></div></div>
+                        <div class="wine-rec-card"><img src="https://i.ibb.co/z5bSKZf/navigator.png" alt="Navigator Wine" class="h-48 w-full object-contain p-4"><div class="p-4"><h3 class="font-semibold text-white">Navigator Cabernet</h3><p class="text-gold text-sm">฿1,590</p></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navButtons = document.querySelectorAll('.dashboard-nav-item');
+            const views = document.querySelectorAll('.view-content');
+
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Update button styles
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    // Show the correct view
+                    const viewId = button.getAttribute('data-view');
+                    views.forEach(view => {
+                        if (view.id === `${viewId}-view`) {
+                            view.classList.remove('hidden');
+                        } else {
+                            view.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
