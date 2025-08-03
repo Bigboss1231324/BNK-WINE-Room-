@@ -9,85 +9,35 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        body {
-            background-color: #0a0a0a;
-            color: #f3f3ff;
-            font-family: 'Inter', sans-serif;
-        }
-        .font-playfair {
-            font-family: 'Playfair Display', serif;
-        }
-        .bg-deep-red {
-            background-color: #800000;
-        }
-        .text-gold {
-            color: #c4a57f;
-        }
-        .btn-primary {
-            @apply w-full bg-deep-red text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-red-800 transition-all duration-300 ease-in-out transform hover:-translate-y-1 disabled:opacity-50;
-        }
-        .btn-social {
-            @apply w-full flex items-center justify-center bg-transparent border-2 border-gray-700 text-gray-300 font-semibold py-3 px-5 rounded-lg shadow-md hover:border-gold hover:text-gold transition-all duration-300 ease-in-out;
-        }
-        .input-group {
-            @apply relative;
-        }
-        .input-icon {
-            @apply absolute left-4 top-1/2 -translate-y-1/2 text-gray-500;
-        }
-        .form-input {
-            @apply w-full bg-gray-900 border border-gray-700 rounded-lg pl-12 pr-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent transition-all;
-        }
-        .login-bg {
-            background-image: linear-gradient(rgba(10,10,10,0.8), rgba(10,10,10,0.8)), url('https://images.unsplash.com/photo-1557682250-3Bcbd709cbe85?auto=format&fit=crop&q=80&w=1770');
-            background-size: cover;
-            background-position: center;
-        }
-        #message-box {
-            transition: opacity 0.3s ease-in-out;
-        }
+        body { background-color: #0a0a0a; color: #f3f3ff; font-family: 'Inter', sans-serif; }
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .bg-deep-red { background-color: #800000; }
+        .text-gold { color: #c4a57f; }
+        .btn-primary { @apply w-full bg-deep-red text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-red-800 transition-all duration-300 ease-in-out transform hover:-translate-y-1 disabled:opacity-50; }
+        .btn-social { @apply w-full flex items-center justify-center bg-transparent border-2 border-gray-700 text-gray-300 font-semibold py-3 px-5 rounded-lg shadow-md hover:border-gold hover:text-gold transition-all duration-300 ease-in-out; }
+        .input-group { @apply relative; }
+        .input-icon { @apply absolute left-4 top-1/2 -translate-y-1/2 text-gray-500; }
+        .form-input { @apply w-full bg-gray-900 border border-gray-700 rounded-lg pl-12 pr-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent transition-all; }
+        .login-bg { background-image: linear-gradient(rgba(10,10,10,0.8), rgba(10,10,10,0.8)), url('https://images.unsplash.com/photo-1557682250-3Bcbd709cbe85?auto=format&fit=crop&q=80&w=1770'); background-size: cover; background-position: center; }
     </style>
 </head>
 <body class="antialiased">
-
     <div class="min-h-screen flex items-center justify-center login-bg p-4">
         <div class="w-full max-w-md mx-auto">
             <div class="bg-black bg-opacity-80 backdrop-blur-lg rounded-2xl shadow-2xl p-8">
                 <div class="text-center mb-8">
-                    <a href="index.html" class="text-3xl font-playfair font-bold text-white">
-                        BNK Wine Room
-                    </a>
+                    <a href="index.html" class="text-3xl font-playfair font-bold text-white">BNK Wine Room</a>
                     <h2 class="text-2xl font-playfair font-bold text-white mt-6">Welcome Back</h2>
                     <p class="text-gold mt-1">Sign in to your account</p>
                 </div>
-                
                 <form id="login-form" class="space-y-6">
-                    <div class="input-group">
-                        <span class="input-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" /><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" /></svg>
-                        </span>
-                        <input type="email" id="email" placeholder="Email Address" class="form-input" required>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" /></svg>
-                        </span>
-                        <input type="password" id="password" placeholder="Password" class="form-input" required>
-                    </div>
-                    <div class="flex items-center justify-between text-sm">
-                        <a href="#" class="font-medium text-gold hover:underline">Forgot Password?</a>
-                    </div>
-                    <div class="pt-2">
-                        <button type="submit" id="login-button" class="btn-primary">Sign In</button>
-                    </div>
+                    <div class="input-group"><span class="input-icon"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" /><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" /></svg></span><input type="email" id="email" placeholder="Email Address" class="form-input" required></div>
+                    <div class="input-group"><span class="input-icon"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" /></svg></span><input type="password" id="password" placeholder="Password" class="form-input" required></div>
+                    <div class="flex items-center justify-end text-sm"><a href="#" class="font-medium text-gold hover:underline">Forgot Password?</a></div>
+                    <div class="pt-2"><button type="submit" id="login-button" class="btn-primary">Sign In</button></div>
                 </form>
-
                 <div class="mt-6">
-                    <div class="my-6 flex items-center">
-                        <div class="flex-grow border-t border-gray-700"></div>
-                        <span class="mx-4 text-gray-400 text-sm">Or</span>
-                        <div class="flex-grow border-t border-gray-700"></div>
-                    </div>
+                    <div class="my-6 flex items-center"><div class="flex-grow border-t border-gray-700"></div><span class="mx-4 text-gray-400 text-sm">Or</span><div class="flex-grow border-t border-gray-700"></div></div>
                     <div class="space-y-4">
                         <button id="google-login-button" class="btn-social">
                             <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"></path><path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691z"></path><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"></path><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.574l6.19 5.238C42.018 35.27 44 30.022 44 24c0-1.341-.138-2.65-.389-3.917z"></path></svg>
@@ -95,21 +45,15 @@
                         </button>
                     </div>
                 </div>
-
-                 <!-- Message Box -->
                 <div id="message-box" class="hidden mt-4 p-4 rounded-lg text-center text-sm"></div>
-
-                <div class="mt-8 text-center text-sm text-gray-400">
-                    <p>Don't have an account? <a href="signup.html" class="font-medium text-gold hover:underline">Sign Up</a></p>
-                </div>
+                <div class="mt-8 text-center text-sm text-gray-400"><p>Don't have an account? <a href="signup.html" class="font-medium text-gold hover:underline">Sign Up</a></p></div>
             </div>
         </div>
     </div>
 
-    <!-- Firebase SDK -->
     <script type="module">
         const firebaseConfig = {
-            apiKey: "AIzaSyAc1eMXvUQghIAjghDbOBoBCnxnVYz9Z3g",
+            apiKey: "YOUR_NEW_SECURE_API_KEY", // <-- PASTE YOUR NEW KEY HERE
             authDomain: "bnk-wine-room.firebaseapp.com",
             projectId: "bnk-wine-room",
             storageBucket: "bnk-wine-room.appspot.com",
@@ -129,63 +73,37 @@
         const googleLoginButton = document.getElementById('google-login-button');
         const messageBox = document.getElementById('message-box');
 
-        // Email/Password Login
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-
             loginButton.disabled = true;
             loginButton.textContent = 'Signing In...';
-            
             signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    handleSuccess(userCredential.user);
-                })
-                .catch((error) => {
-                    handleError(error);
-                });
+                .then(userCredential => handleSuccess(userCredential.user))
+                .catch(handleError);
         });
 
-        // Google Login
         googleLoginButton.addEventListener('click', () => {
              signInWithPopup(auth, googleProvider)
-                .then((result) => {
-                    handleSuccess(result.user);
-                }).catch((error) => {
-                    handleError(error);
-                });
+                .then(result => handleSuccess(result.user))
+                .catch(handleError);
         });
 
         function handleSuccess(user) {
             messageBox.textContent = `Welcome back, ${user.displayName || 'Connoisseur'}! Redirecting...`;
-            messageBox.classList.remove('hidden', 'bg-red-500/20', 'text-red-400');
-            messageBox.classList.add('bg-green-500/20', 'text-green-400');
-            
-            setTimeout(() => {
-                window.location.assign('dashboard.html');
-            }, 2000);
+            messageBox.className = 'mt-4 p-4 rounded-lg text-center text-sm bg-green-500/20 text-green-400';
+            setTimeout(() => window.location.assign('./dashboard.html'), 2000);
         }
 
         function handleError(error) {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.error("Firebase Error:", errorCode, errorMessage);
-            
-            let friendlyMessage = "Invalid email or password. Please try again.";
-             if (errorCode === 'auth/popup-closed-by-user') {
-                friendlyMessage = "Sign-in process was cancelled.";
-            }
-            
-            messageBox.textContent = friendlyMessage;
-            messageBox.classList.remove('hidden', 'bg-green-500/20', 'text-green-400');
-            messageBox.classList.add('bg-red-500/20', 'text-red-400');
-            
+            let msg = "Invalid email or password. Please try again.";
+            if (error.code === 'auth/popup-closed-by-user') msg = "Sign-in process was cancelled.";
+            messageBox.textContent = msg;
+            messageBox.className = 'mt-4 p-4 rounded-lg text-center text-sm bg-red-500/20 text-red-400';
             loginButton.disabled = false;
             loginButton.textContent = 'Sign In';
         }
     </script>
-
 </body>
 </html>
