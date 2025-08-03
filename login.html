@@ -82,6 +82,20 @@
                     </div>
                 </form>
 
+                <div class="mt-6">
+                    <div class="my-6 flex items-center">
+                        <div class="flex-grow border-t border-gray-700"></div>
+                        <span class="mx-4 text-gray-400 text-sm">Or</span>
+                        <div class="flex-grow border-t border-gray-700"></div>
+                    </div>
+                    <div class="space-y-4">
+                        <button id="google-login-button" class="btn-social">
+                            <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"></path><path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691z"></path><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"></path><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.574l6.19 5.238C42.018 35.27 44 30.022 44 24c0-1.341-.138-2.65-.389-3.917z"></path></svg>
+                            Continue with Google
+                        </button>
+                    </div>
+                </div>
+
                  <!-- Message Box -->
                 <div id="message-box" class="hidden mt-4 p-4 rounded-lg text-center text-sm"></div>
 
@@ -94,7 +108,6 @@
 
     <!-- Firebase SDK -->
     <script type="module">
-        // Your web app's Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAc1eMXvUQghIAjghDbOBoBCnxnVYz9Z3g",
             authDomain: "bnk-wine-room.firebaseapp.com",
@@ -104,18 +117,19 @@
             appId: "1:926028438220:web:de5716f5ecd7fa3020b4a9"
         };
 
-        // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+        import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth();
+        const googleProvider = new GoogleAuthProvider();
 
         const loginForm = document.getElementById('login-form');
         const loginButton = document.getElementById('login-button');
+        const googleLoginButton = document.getElementById('google-login-button');
         const messageBox = document.getElementById('message-box');
 
+        // Email/Password Login
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
@@ -127,33 +141,50 @@
             
             signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
-                    // Signed in 
-                    const user = userCredential.user;
-                    
-                    messageBox.textContent = `Welcome back, ${user.displayName || 'Connoisseur'}! Redirecting...`;
-                    messageBox.classList.remove('hidden', 'bg-red-500/20', 'text-red-400');
-                    messageBox.classList.add('bg-green-500/20', 'text-green-400');
-                    
-                    // Redirect to dashboard after a short delay
-                    setTimeout(() => {
-                        window.location.href = 'dashboard.html';
-                    }, 2000);
+                    handleSuccess(userCredential.user);
                 })
                 .catch((error) => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    console.error("Firebase Error:", errorCode, errorMessage);
-                    
-                    let friendlyMessage = "Invalid email or password. Please try again.";
-                    
-                    messageBox.textContent = friendlyMessage;
-                    messageBox.classList.remove('hidden', 'bg-green-500/20', 'text-green-400');
-                    messageBox.classList.add('bg-red-500/20', 'text-red-400');
-                    
-                    loginButton.disabled = false;
-                    loginButton.textContent = 'Sign In';
+                    handleError(error);
                 });
         });
+
+        // Google Login
+        googleLoginButton.addEventListener('click', () => {
+             signInWithPopup(auth, googleProvider)
+                .then((result) => {
+                    handleSuccess(result.user);
+                }).catch((error) => {
+                    handleError(error);
+                });
+        });
+
+        function handleSuccess(user) {
+            messageBox.textContent = `Welcome back, ${user.displayName || 'Connoisseur'}! Redirecting...`;
+            messageBox.classList.remove('hidden', 'bg-red-500/20', 'text-red-400');
+            messageBox.classList.add('bg-green-500/20', 'text-green-400');
+            
+            setTimeout(() => {
+                window.location.assign('dashboard.html');
+            }, 2000);
+        }
+
+        function handleError(error) {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.error("Firebase Error:", errorCode, errorMessage);
+            
+            let friendlyMessage = "Invalid email or password. Please try again.";
+             if (errorCode === 'auth/popup-closed-by-user') {
+                friendlyMessage = "Sign-in process was cancelled.";
+            }
+            
+            messageBox.textContent = friendlyMessage;
+            messageBox.classList.remove('hidden', 'bg-green-500/20', 'text-green-400');
+            messageBox.classList.add('bg-red-500/20', 'text-red-400');
+            
+            loginButton.disabled = false;
+            loginButton.textContent = 'Sign In';
+        }
     </script>
 
 </body>
