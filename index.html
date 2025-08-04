@@ -10,10 +10,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        body { 
-            background-color: #0a0a0a; 
-            color: #f3f3f3; 
-            font-family: 'Inter', sans-serif; 
+        body {
+            background-color: #0a0a0a;
+            color: #f3f3f3;
+            font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
         .font-playfair { font-family: 'Playfair Display', serif; }
@@ -23,7 +23,7 @@
         .btn-primary { @apply bg-deep-red text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-red-800 transition-all duration-300 ease-in-out transform; }
         .btn-secondary { @apply border-2 border-gold text-gold font-semibold py-3 px-8 rounded-lg hover:bg-gold hover:text-black transition-all duration-300 ease-in-out; }
         .cart-badge { @apply absolute -top-2 -right-2 bg-gold text-black text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center; }
-        
+
         #hero-canvas {
             position: absolute;
             top: 0;
@@ -41,10 +41,10 @@
         .scroll-arrow { animation: bounce 2s infinite; }
         @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-20px); } 60% { transform: translateY(-10px); } }
 
-        .wine-card { 
+        .wine-card {
             background-color: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(10px);
-            @apply rounded-xl overflow-hidden shadow-lg transition-all duration-500 ease-in-out transform flex flex-col border-2 border-transparent; 
+            @apply rounded-xl overflow-hidden shadow-lg transition-all duration-500 ease-in-out transform flex flex-col border-2 border-transparent;
         }
         .wine-card:hover {
             transform: scale(1.03) translateY(-5px);
@@ -63,11 +63,40 @@
         .animate-on-scroll { opacity: 0; transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
         .animate-fade-in-up { transform: translateY(30px); }
         .animate-fade-in-left { transform: translateX(-30px); }
-        .animate-fade-in-right { transform: translateX(30px); }
         .animate-on-scroll.is-visible { opacity: 1; transform: translate(0, 0); }
 
         .dropdown .dropdown-menu { display: none; }
         .dropdown:hover .dropdown-menu { display: block; }
+
+        .line-float {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 70px;
+            height: 70px;
+            z-index: 1000;
+            cursor: pointer;
+            border-radius: 1rem;
+            transition: transform 0.3s ease-in-out;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        .line-float:hover {
+            transform: scale(1.1);
+        }
+
+        /* Modal specific styles */
+        .modal {
+            @apply fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 transition-opacity duration-300 ease-in-out opacity-0 pointer-events-none;
+        }
+        .modal.show {
+            @apply opacity-100 pointer-events-auto;
+        }
+        .modal-content {
+            @apply bg-[#111111] border-2 border-gold rounded-lg p-8 max-w-lg w-11/12 transform scale-95 transition-transform duration-300 ease-in-out;
+        }
+        .modal.show .modal-content {
+            @apply scale-100;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -91,9 +120,7 @@
                     <a href="#about" class="text-gray-300 hover:text-white transition">Our Story</a>
                 </nav>
                 <div class="flex items-center space-x-4">
-                    <a href="login.html" class="text-gray-300 hover:text-white transition" aria-label="Login / My Account">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-                    </a>
+                    <!-- Removed login link -->
                     <a href="cart.html" class="text-gray-300 hover:text-white transition relative" aria-label="Shopping Cart"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4z" /></svg><span id="cart-item-count" class="cart-badge hidden">0</span></a>
                 </div>
             </div>
@@ -128,16 +155,17 @@
                         <h3 class="text-xl font-playfair font-bold text-white">Octopoda Cabernet</h3>
                         <p class="text-gold mt-1 text-sm">California, USA</p>
                         <div class="mt-4 text-sm text-gray-400 space-y-2 flex-grow">
-                            <p>Full-bodied with bold fruit, balanced tannins, and a long finish.</p>
+                            <p id="desc-1">Full-bodied with bold fruit, balanced tannins, and a long finish.</p>
                             <p class="text-gray-500">ฟูลบอดี้พร้อมผลไม้เด่นชัด แทนนินสมดุล และจบยาว</p>
                         </div>
                         <div class="flex justify-between items-center text-sm text-gold mt-4 pt-4 border-t border-gray-800">
                             <span>75cls</span>
                             <span>14.5% ABV</span>
                         </div>
-                        <div class="flex justify-between items-center mt-4">
+                        <div class="flex justify-between items-center mt-4 space-x-2">
                             <p class="text-xl font-bold text-white">฿1,990.00</p>
                             <button class="btn-primary py-2 px-4 text-sm" onclick="addToCart({id: 1, name: 'Octopoda Cabernet Sauvignon', price: 1990, image: 'https://i.ibb.co/L5BKn3w/octopoda.png'})">Add to Cart</button>
+                            <button class="btn-secondary py-2 px-4 text-sm text-white bg-[#1a1a1a] border-2 border-transparent hover:bg-black" onclick="showFoodPairing('Octopoda Cabernet', document.getElementById('desc-1').innerText)">✨ Pairing</button>
                         </div>
                     </div>
                 </div>
@@ -147,16 +175,17 @@
                         <h3 class="text-xl font-playfair font-bold text-white">St. John Crush Shiraz</h3>
                         <p class="text-gold mt-1 text-sm">Australia</p>
                         <div class="mt-4 text-sm text-gray-400 space-y-2 flex-grow">
-                            <p>Aroma: Black cherry, licorice, and dark fruit with spicy chocolate. Palate: Deep, rich tannins.</p>
+                            <p id="desc-15">Aroma: Black cherry, licorice, and dark fruit with spicy chocolate. Palate: Deep, rich tannins.</p>
                             <p class="text-gray-500">กลิ่นแบล็คเชอร์รี่ ชะเอมเทศ และผลไม้สีเข้มพร้อมช็อกโกแลตเผ็ดร้อน แทนนินเข้มข้น</p>
                         </div>
                         <div class="flex justify-between items-center text-sm text-gold mt-4 pt-4 border-t border-gray-800">
                             <span>75cls</span>
                             <span>15% ABV</span>
                         </div>
-                        <div class="flex justify-between items-center mt-4">
+                        <div class="flex justify-between items-center mt-4 space-x-2">
                             <p class="text-xl font-bold text-white">฿1,290.00</p>
                             <button class="btn-primary py-2 px-4 text-sm" onclick="addToCart({id: 15, name: 'St. John Crush Shiraz', price: 1290, image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=St.+John+Shiraz'})">Add to Cart</button>
+                            <button class="btn-secondary py-2 px-4 text-sm text-white bg-[#1a1a1a] border-2 border-transparent hover:bg-black" onclick="showFoodPairing('St. John Crush Shiraz', document.getElementById('desc-15').innerText)">✨ Pairing</button>
                         </div>
                     </div>
                 </div>
@@ -166,16 +195,17 @@
                         <h3 class="text-xl font-playfair font-bold text-white">Amparo Gran Reserva</h3>
                         <p class="text-gold mt-1 text-sm">Chile</p>
                         <div class="mt-4 text-sm text-gray-400 space-y-2 flex-grow">
-                            <p>Palate: Full body, great concentration, with velvety tannins, balanced acidity, and lovely blueberries.</p>
+                            <p id="desc-28">Palate: Full body, great concentration, with velvety tannins, balanced acidity, and lovely blueberries.</p>
                             <p class="text-gray-500">ฟูลบอดี้ เข้มข้นสูง แทนนินนุ่มนวล ความเป็นกรดสมดุล และบลูเบอร์รี่น่ารัก</p>
                         </div>
                         <div class="flex justify-between items-center text-sm text-gold mt-4 pt-4 border-t border-gray-800">
                             <span>75cls</span>
                             <span>13.5% ABV</span>
                         </div>
-                        <div class="flex justify-between items-center mt-4">
+                        <div class="flex justify-between items-center mt-4 space-x-2">
                             <p class="text-xl font-bold text-white">฿1,590.00</p>
                             <button class="btn-primary py-2 px-4 text-sm" onclick="addToCart({id: 28, name: 'Amparo Carménère Gran Reserva', price: 1590, image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Amparo+Gran+Reserva'})">Add to Cart</button>
+                            <button class="btn-secondary py-2 px-4 text-sm text-white bg-[#1a1a1a] border-2 border-transparent hover:bg-black" onclick="showFoodPairing('Amparo Gran Reserva', document.getElementById('desc-28').innerText)">✨ Pairing</button>
                         </div>
                     </div>
                 </div>
@@ -198,16 +228,17 @@
                         <h3 class="text-xl font-playfair font-bold text-white">Chateau de Roques</h3>
                         <p class="text-gold mt-1 text-sm">France</p>
                         <div class="mt-4 text-sm text-gray-400 space-y-2 flex-grow">
-                            <p>Elegant structure, soft tannins, and great aging potential.</p>
+                            <p id="desc-6">Elegant structure, soft tannins, and great aging potential.</p>
                             <p class="text-gray-500">โครงสร้างหรูหรา แทนนินนุ่มนวล มีศักยภาพในการเก็บได้นาน</p>
                         </div>
                         <div class="flex justify-between items-center text-sm text-gold mt-4 pt-4 border-t border-gray-800">
                             <span>75cls</span>
                             <span>14.5% ABV</span>
                         </div>
-                        <div class="flex justify-between items-center mt-4">
+                        <div class="flex justify-between items-center mt-4 space-x-2">
                             <p class="text-xl font-bold text-white">฿3,390.00</p>
                             <button class="btn-primary py-2 px-4 text-sm" onclick="addToCart({id: 6, name: 'Chateau de Roques', price: 3390, image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Chateau+de+Roques'})">Add to Cart</button>
+                            <button class="btn-secondary py-2 px-4 text-sm text-white bg-[#1a1a1a] border-2 border-transparent hover:bg-black" onclick="showFoodPairing('Chateau de Roques', document.getElementById('desc-6').innerText)">✨ Pairing</button>
                         </div>
                     </div>
                 </div>
@@ -217,16 +248,17 @@
                         <h3 class="text-xl font-playfair font-bold text-white">Château Valade</h3>
                         <p class="text-gold mt-1 text-sm">France</p>
                          <div class="mt-4 text-sm text-gray-400 space-y-2 flex-grow">
-                            <p>Beautiful ruby color with aromas of red fruits. Supple and fruity with fine tannins.</p>
+                            <p id="desc-8">Beautiful ruby color with aromas of red fruits. Supple and fruity with fine tannins.</p>
                             <p class="text-gray-500">สีทับทิมสวยงามพร้อมกลิ่นหอมของผลไม้สีแดง เนื้อนุ่มและผลไม้พร้อมแทนนินละเอียด</p>
                         </div>
                         <div class="flex justify-between items-center text-sm text-gold mt-4 pt-4 border-t border-gray-800">
                             <span>75cls</span>
                             <span>13% ABV</span>
                         </div>
-                        <div class="flex justify-between items-center mt-4">
+                        <div class="flex justify-between items-center mt-4 space-x-2">
                             <p class="text-xl font-bold text-white">฿1,690.00</p>
                             <button class="btn-primary py-2 px-4 text-sm" onclick="addToCart({id: 8, name: 'Château Valade', price: 1690, image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Château+Valade'})">Add to Cart</button>
+                            <button class="btn-secondary py-2 px-4 text-sm text-white bg-[#1a1a1a] border-2 border-transparent hover:bg-black" onclick="showFoodPairing('Château Valade', document.getElementById('desc-8').innerText)">✨ Pairing</button>
                         </div>
                     </div>
                 </div>
@@ -236,16 +268,17 @@
                         <h3 class="text-xl font-playfair font-bold text-white">Chateau Jean De Gue</h3>
                         <p class="text-gold mt-1 text-sm">France</p>
                         <div class="mt-4 text-sm text-gray-400 space-y-2 flex-grow">
-                            <p>Aromas of cedar, cassis, and tobacco dust. Full-bodied with a long and aromatic finish.</p>
+                            <p id="desc-12">Aromas of cedar, cassis, and tobacco dust. Full-bodied with a long and aromatic finish.</p>
                             <p class="text-gray-500">กลิ่นหอมของซีดาร์ แคสซิส และฝุ่นยาสูบ ฟูลบอดี้พร้อมรสชาติที่ยาวนานและหอม</p>
                         </div>
                         <div class="flex justify-between items-center text-sm text-gold mt-4 pt-4 border-t border-gray-800">
                             <span>75cls</span>
                             <span>13% ABV</span>
                         </div>
-                        <div class="flex justify-between items-center mt-4">
+                        <div class="flex justify-between items-center mt-4 space-x-2">
                             <p class="text-xl font-bold text-white">฿3,590.00</p>
                             <button class="btn-primary py-2 px-4 text-sm" onclick="addToCart({id: 12, name: 'Chateau Jean De Gue', price: 3590, image: 'https://placehold.co/600x800/1a1a1a/ffffff?text=Chateau+Jean+De+Gue'})">Add to Cart</button>
+                            <button class="btn-secondary py-2 px-4 text-sm text-white bg-[#1a1a1a] border-2 border-transparent hover:bg-black" onclick="showFoodPairing('Chateau Jean De Gue', document.getElementById('desc-12').innerText)">✨ Pairing</button>
                         </div>
                     </div>
                 </div>
@@ -253,7 +286,7 @@
              <div class="text-center mt-16 animate-on-scroll animate-fade-in-up"><a href="old-world.html" class="btn-secondary">Explore Old World Wines</a></div>
         </div>
     </section>
-    
+
     <!-- About Section -->
     <section id="about" class="py-24 bg-black">
         <div class="container mx-auto px-6">
@@ -280,10 +313,30 @@
         </div>
     </footer>
 
+    <!-- Floating LINE Icon -->
+    <a href="https://lin.ee/KL279Ga" target="_blank" aria-label="Contact us on LINE" class="line-float">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fd/LINE_logo_square.png" alt="LINE Official Account" class="w-full h-full rounded-2xl">
+    </a>
+
     <!-- Toast Notification -->
     <div id="toast-notification" class="fixed bottom-5 right-5 bg-gold text-black p-4 rounded-lg shadow-lg max-w-sm z-50">
         <p id="toast-message" class="font-semibold"></p>
     </div>
+
+    <!-- Pairing Suggestion Modal -->
+    <div id="pairing-modal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center border-b border-gray-700 pb-4 mb-4">
+                <h3 class="text-2xl font-playfair text-white" id="modal-title"></h3>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-white transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <p id="modal-text" class="text-gray-400 mb-4"></p>
+            <p id="modal-loading" class="text-gold text-center hidden">Generating pairing...</p>
+        </div>
+    </div>
+
 
     <script>
         // --- 3D HERO SCENE: FERMENTATION ---
@@ -291,7 +344,7 @@
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const canvas = document.getElementById('hero-canvas');
         const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
-        
+
         renderer.setSize(window.innerWidth, window.innerHeight);
         camera.position.z = 5;
 
@@ -308,7 +361,7 @@
 
         const particleGeometry = new THREE.BufferGeometry();
         particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        
+
         const createParticleSystem = (color, size) => {
             const material = new THREE.PointsMaterial({ color: color, size: size, blending: THREE.AdditiveBlending, transparent: true, opacity: 0.7 });
             return new THREE.Points(particleGeometry, material);
@@ -318,7 +371,7 @@
         const redParticles = createParticleSystem(0x800000, 0.03);
         scene.add(goldParticles);
         scene.add(redParticles);
-        
+
         let mouse = new THREE.Vector2(-100, -100);
         document.addEventListener('mousemove', (event) => {
             mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -345,13 +398,86 @@
             particleGeometry.attributes.position.needsUpdate = true;
             renderer.render(scene, camera);
         }
-        animate();
+        window.onload = function () {
+            animate();
+        };
 
         window.addEventListener('resize', () => {
             renderer.setSize(window.innerWidth, window.innerHeight);
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
         });
+
+        // --- GEMINI API INTEGRATION FOR FOOD PAIRING ---
+        async function getFoodPairing(wineName, wineDescription, retries = 3, delay = 1000) {
+            const prompt = `You are a sommelier. Provide a concise food pairing suggestion for the following wine. The response should be a single paragraph, and should include both English and a Thai translation.
+            
+            Wine Name: ${wineName}
+            Wine Description: ${wineDescription}
+            
+            Format your response like this:
+            [English pairing suggestion]. [Thai pairing suggestion].`;
+
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+            const payload = {
+                contents: [{
+                    role: "user",
+                    parts: [{ text: prompt }]
+                }]
+            };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0 && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts.length > 0) {
+                    return result.candidates[0].content.parts[0].text;
+                } else {
+                    throw new Error("Invalid API response format.");
+                }
+            } catch (error) {
+                if (retries > 0) {
+                    console.error(`Attempt failed. Retrying in ${delay / 1000}s...`, error);
+                    await new Promise(res => setTimeout(res, delay));
+                    return getFoodPairing(wineName, wineDescription, retries - 1, delay * 2);
+                } else {
+                    console.error("All retry attempts failed.");
+                    return "Could not generate a pairing suggestion. Please try again later. ไม่สามารถสร้างคำแนะนำการจับคู่ได้ โปรดลองอีกครั้งในภายหลัง";
+                }
+            }
+        }
+
+        async function showFoodPairing(wineName, wineDescription) {
+            const modal = document.getElementById('pairing-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalText = document.getElementById('modal-text');
+            const modalLoading = document.getElementById('modal-loading');
+
+            modalTitle.innerText = `Pairing for ${wineName}`;
+            modalText.innerText = '';
+            modalLoading.classList.remove('hidden');
+            modal.classList.add('show');
+
+            try {
+                const pairingText = await getFoodPairing(wineName, wineDescription);
+                modalText.innerText = pairingText;
+            } catch (error) {
+                console.error("Error fetching food pairing:", error);
+                modalText.innerText = "An error occurred. Please try again. เกิดข้อผิดพลาด. กรุณาลองใหม่อีกครั้ง";
+            } finally {
+                modalLoading.classList.add('hidden');
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('pairing-modal');
+            modal.classList.remove('show');
+        }
 
         // --- CART LOGIC ---
         function addToCart(product) {
